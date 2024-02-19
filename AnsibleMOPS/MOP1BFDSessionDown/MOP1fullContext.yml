@@ -1,0 +1,240 @@
+---
+- name: 3.1 ALARM CHECKS FOR BFD SESSION DOWN
+  hosts: localhost
+  gather_facts: no
+  
+  vars:
+    filePath: "Check2BFDInputStatus.txt"
+    templateCheck4File: "BFDIPAddressReplaceCheck4.txt"
+    currentPrefix: ""
+    outputFile: "outputCheck4AddressReplace.txt"
+    results: []
+    adminDownFlag: false
+    context: ""
+    adminDownNeighbors: []  # Initialize the variable here
+    node_name: Meep
+    neighbour: "2405:dc00:42:16e::3"
+    context_: "sgi_nat"
+    additionalText: "The status of BFD session is changed to DOWN/ADMINDOWN "
+# The above lines are for testing purposes 
+    nodes_ip_mapping:
+      22BTvEPG01: 10.194.181.208
+      22BTvEPG02: 10.194.183.208
+      33EBvEPG01: 10.194.184.208
+      33EBvEPG02: 10.194.186.208
+      33VSvEPG01: 10.194.185.208
+      33VSvEPG02: 10.194.187.208
+      44RDvEPG01: 10.194.189.208
+      44RDvEPG02: 10.194.191.208
+      O6LXvEPG01: 10.194.180.208
+      O6LXvEPG02: 10.194.182.208
+      O4MOvEPG01: 10.194.176.208
+      O4MOvEPG02: 10.194.178.208
+      O5RXvEPG01: 10.194.188.208
+      O5RXvEPG02: 10.194.190.208
+      22RRvEPG01: 10.194.177.208
+      22RRvEPG02: 10.194.179.208
+  tasks:
+
+
+    - name: Read the contents of BFDSessionDownCheck1Template.txt
+      command: cat BFDSessionDownCheck1Template.txt
+      register: fileContentCheck1
+
+    - name: Set neighbourname based on alarm_name condition
+      set_fact:
+        neighbourName: "{{ neighbour | default('default_neighbour') }}"
+
+    - name: Replace node name in file content
+      set_fact:
+        replacedTextPreCheck1: "{{ fileContentCheck1.stdout | replace('*nodename*', node_name) }}"
+
+    - name: Replace neighbour name in file content
+      set_fact:
+        textInputCheck1: "{{ replacedTextPreCheck1 | replace('*neighbourname*', '\"' + neighbourName + '\"') }}"
+
+    - name: Replace context in file content
+      set_fact:
+        textInputCheck2: "{{ textInputCheck1 | replace('*contextname*', context_) }}"
+
+    - name: Write the final text to BFDSessionDownCheckProcessed.txt
+      copy:
+        content: "{{ textInputCheck2 }}"
+        dest: "BFDSessionDownCheckProcessed.txt"
+
+    - name: Read the Processed FM Alarm file
+      shell: cat BFDSessionDownCheckProcessed.txt
+      register: fmAlarmContent
+      changed_when: false
+
+    - name: Extract alarm information
+      set_fact:
+        isValidAlarm:
+          meContext: "{{ fmAlarmContent.stdout | regex_search('MeContext=([^,]+)', '\\1') | first }}"
+          context: "{{ fmAlarmContent.stdout | regex_search('context=([^,]+)', '\\1') | first }}"
+          neighbor: "{{ fmAlarmContent.stdout | regex_search('neighbor=\"\\s*([^\"]+?)\\s*\"', '\\1') | first }}"
+
+    - name: Debug extracted values
+      debug:
+        msg: "Extracted values - MeContext: '{{ isValidAlarm.meContext }}', Context: '{{ isValidAlarm.context }}', Neighbor: '{{ isValidAlarm.neighbor }}'"
+
+    - name: Verify extracted values
+      assert:
+        that:
+          - isValidAlarm.meContext == node_name
+          - isValidAlarm.context == context_
+          - isValidAlarm.neighbor | trim == neighbourName
+        fail_msg: "Extracted values do not match the expected ones!"
+        success_msg: "Extracted values match the expected ones!"
+
+
+
+
+
+
+
+    - name: Check 2    Check the respective BFD status using CLI print
+      debug:
+        msg: The task can be descibed as taking a note of static route IP of the respective context for which the neighbor address belongs to. The purpose is to cross check the state of the neighbor address highlighted on the above step.
+
+    - name: Read the file
+      command: cat BFDStatusCheck2.txt
+      register: fileContentCheck1
+      changed_when: false
+
+    - name: Execute Python Script
+      command: python3 BFDSstatusCheck2Extraction.py
+      register: scriptOutput
+
+    - name: Set Output as a Fact
+      set_fact:
+        parsedOutput: "{{ scriptOutput.stdout_lines }}"
+
+    - name: Load neighbor_from_first_playbook as a string
+      set_fact:
+        initiateNeighbours: "{{ isValidAlarm.neighbor[0] }}"
+
+    - name: Check which Neighbour is the same
+      set_fact:
+        matchingNeighbour: "{{ item }}"
+      loop: "{{ parsedOutput }}"
+      when: initiateNeighbours in item
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Display Matching Neighbour
+      debug:
+        var: matchingNeighbour
+
+    - name: Check 3    Record IP of designated neighbour
+      debug:
+        msg: The task can be described as taking note of the static route IP of the respective context for which the neighbor address belongs to. The purpose is to note down the static IP address of respective context for which the BFD neighbour is down.
+        
+    - name: Execute Python Script
+      command: python3 NoteIPContextNeighbourCheck3Extraction.py
+      register: scriptOutput
+
+    - name: Set Output as a Fact
+      set_fact:
+        parsedOutput: "{{ scriptOutput.stdout_lines }}"
+
+    - name: Load neighbor_from_first_playbook as a string
+      set_fact:
+        initiateNeighbours: "{{ isValidAlarm.neighbor[0] }}"
+
+    - name: Check which Neighbour is the same
+      set_fact:
+        matchingNeighbours: "{{ parsedOutput | select('search', initiateNeighbours) | first }}"
+    
+    - name: Display Matching Neighbours
+      debug:
+        var: matchingNeighbours
+
+    - name: Extract values for the matched neighbor
+      set_fact:
+        matched_neighbor_value: "{{ matchingNeighbours.addr }}"
+        matched_prefix_value: "{{ matchingNeighbours.prefix }}"
+
+    - name: Check 4    Remove and add the problematic BFD IP address
+      debug:
+        msg: Remove and add the problematic static IP address against the problematic BFD neighbor. Removal of BFD static address
+
+    - name: Read templateCheck4.txt
+      command: "cat {{ templateCheck4File }}"
+      register: templateCheck4Content
+      delegate_to: localhost
+      
+
+    - name: Replace placeholders with actual IPs
+      set_fact:
+        updatedContent: |
+          {% for line in templateCheck4Content.stdout_lines %}
+            {% if '*STATIC IP ADDRESS*' in line and '*BFD NEIGHBOR IP for which the Alarm raised*' in line %}
+              {% for ip in matchingNeighbours %}
+                {{ line | replace('*STATIC IP ADDRESS*', matched_prefix_value) | replace('*BFD NEIGHBOR IP for which the Alarm raised*', matched_neighbor_value) }}
+              {% endfor %}
+            {% else %}
+              {{ line }}
+            {% endif %}
+          {% endfor %}
+       
+
+    - name: Write the updated content to outputCheck4.txt
+      copy:
+        content: "{{ updatedContent }}"
+        dest: "{{ outputFile }}"
+      delegate_to: localhost
+      
+
+    - name: Check 5    Alarm Checks for BFD Session Down and ensure alarm is cleared
+      debug:
+        msg: The task can be described as performing alarm checks for BFD Session Down and ensuring alarm is cleared. The purpose is to check if the alarm is cleared.
+       
+
+    - name: Read the content of the first file
+      shell: cat BFDSessionDownCheck1Template.txt
+      register: additionalTextContent
+      changed_when: false  # To prevent Ansible from reporting a change
+      
+
+    - name: Read the content of the second file
+      shell: cat BFDSessionDownAlarmClearCheck5.txt
+      register: realAdditionalTextContent
+      changed_when: false  # To prevent Ansible from reporting a change
+      
+
+    - name: Extract BFD Session Down Message from the first file
+      set_fact:
+        bfd_message: "{{ additionalTextContent.stdout | regex_search('AdditionalText=\"(.*?)\"', '\\1') }}"
+      when: additionalTextContent.stdout | regex_search('AdditionalText=\"(.*?)\"', '\\1') is not none
+      
+      
+    - name: Set a flag if BFD Session Down Message is found in the second file's additional-text
+      set_fact:
+        bfd_message_found: true
+      when: bfd_message is defined and realAdditionalTextContent.stdout is search(bfd_message)
+       
+
+    - name: Display the result
+      debug:
+        msg: "BFD Session Down Message {{ 'is' if bfd_message_found|default(false) else 'is not' }} present in the second file's additional-text"
+      
+
+    - name: Compare additionalText with bfd_message
+      set_fact:
+        is_additionalText_equal_to_bfd_message: "{{ additionalText == bfd_message }}"
+      when: bfd_message is defined
+
+
+    - name: Check 6    Check the problematic BFD is UP or not
+      debug:
+        msg: The task is to check if the problematic BFD is back UP or not after the config fix. The purpose is to cross check the state of the neighbor address highlighted on above step.
+
+    - name: Read BFD_CLI_checks_5.txt
+      command: cat BadBFDBackUpCheck6.txt
+      register: bfd_output
+      
+    - name: Check if the most recent neighbor in neighbor_vars.yml is Back Up
+      assert:
+        that: "'{{ isValidAlarm.neighbor | last }}' in bfd_output.stdout and 'Up' in bfd_output.stdout"
+        fail_msg: "{{ isValidAlarm.neighbor | last }} is not Up"

@@ -1,0 +1,28 @@
+Purpose: Display Card status
+Where: all servers
+Command: show card
+Example: 
+[local]O4MOvEPG02#show card
+Sat May  13 18:04:41.292 UTC+00:00
+Slot : Configured Type      Installed Type       Operational State Admin State
+------------------------------------------------------------------------------- 
+ vRP1 : n/a                  vrp                  IS                In Service
+vRP2 : n/a                  vrp                  IS                In Service
+    1 : vsfo                 vsfo                 IS                In Service
+    2 : vsfo                 vsfo                 IS                In Service
+    3 : vsfo                 vsfo                 IS                In Service
+    4 : vsfo                 vsfo                 IS                In Service
+    5 : vsfo                 vsfo                 IS                In Service
+    6 : vsfo                 vsfo                 IS                In Service
+    7 : vsfo                 vsfo                 IS                In Service
+    8 : vsfo                 vsfo                 IS                In Service
+    9 : vsfo                 vsfo                 IS                In Service
+   10 : vsfo                 vsfo                 IS                In Service
+   11 : vsfo                 vsfo                 IS                In Service
+   12 : vsfo                 vsfo                 IS                In Service
+   23 : vsfo                 vsfo                 IS                In Service
+   24 : vsfo                 vsfo                 IS                In Service
+   25 : vsfo                 vsfo                 IS                In Service
+   26 : vsfo                 none                 n/a               In Service
+[local]O4MOvEPG02#
+

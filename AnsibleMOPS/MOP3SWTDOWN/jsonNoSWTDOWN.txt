@@ -1,0 +1,103 @@
+{
+  "response-message": {
+    "header": {
+      "firstIndex": 0,
+      "lastIndex": 2,
+      "iteratorId": 15045326525
+    },
+    "data": {
+      "alarm": [
+        {
+          "alarm-identifier": {
+            "event-identifier": 14749105102,
+            "resource-object-ref": "MD=CISCO_EPNM!ND=12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+            "probable-cause": "BGP-5-ADJCHANGE_DOWN"
+          },
+          "perceived-severity": "cleared",
+          "description": "neighbor 172.29.19.94 Up",
+          "category": "BGP",
+          "source-object-ref": "MD=CISCO_EPNM!ND=12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+          "source-object-name": "BGP Neighbor : 172.29.19.94",
+          "source-object-id": 11100523203,
+          "node-ref": "12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+          "business-key": "10.197.153.6:172.29.19.94::BGP-5-ADJCHANGE##SubAlarm@@_16",
+          "cause-type": "cause-unknown",
+          "ack-state": "unacknowledged",
+          "remote-interface-ip-address": "10.197.153.6",
+          "system-received-time": "2023-10-23 03:36:23.980",
+          "system-received-time-iso8601": "2023-10-23T03:36:23.980Z",
+          "system-update-time": "2023-11-17 09:55:07.518",
+          "system-update-time-iso8601": "2023-11-17T09:55:07.518Z",
+          "node-event-time": "2023-11-17 09:55:06.510",
+          "node-event-time-iso8601": "2023-11-17T09:55:06.510Z",
+          "probable-cause": "BGP-5-ADJCHANGE_DOWN",
+          "service-impacting": "service-impacting-unknown",
+          "root-cause-alarm-identifier": {
+            "event-identifier": 0
+          },
+          "user-defined-fields": ""
+        },
+        {
+          "alarm-identifier": {
+            "event-identifier": 15039279634,
+            "resource-object-ref": "MD=CISCO_EPNM!ND=12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+            "probable-cause": "BGP-3-NOTIFICATION"
+          },
+          "perceived-severity": "cleared",
+          "description": "Cleared stale alarms",
+          "category": "BGP",
+          "source-object-ref": "MD=CISCO_EPNM!ND=12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+          "source-object-name": "BGP Neighbor : 10.115.55.69",
+          "source-object-id": 32606892,
+          "node-ref": "12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+          "business-key": "10.197.153.6:10.115.55.69:4/0:hold time expired:BGP-3-NOTIFICATION##SubAlarm@@_110",
+          "cause-type": "symptom",
+          "ack-state": "unacknowledged",
+          "remote-interface-ip-address": "10.197.153.6",
+          "system-received-time": "2023-11-16 21:00:25.026",
+          "system-received-time-iso8601": "2023-11-16T21:00:25.026Z",
+          "system-update-time": "2023-11-19 22:24:21.574",
+          "system-update-time-iso8601": "2023-11-19T22:24:21.574Z",
+          "probable-cause": "BGP-3-NOTIFICATION",
+          "service-impacting": "service-impacting-unknown",
+          "root-cause-alarm-identifier": {
+            "event-identifier": 15039279636
+          },
+          "user-defined-fields": ""
+        },
+        {
+          "alarm-identifier": {
+            "event-identifier": 15045326525,
+            "resource-object-ref": "MD=CISCO_EPNM!ND=12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+            "probable-cause": "BGP-5-ADJCHANGE_DOWN"
+          },
+          "perceived-severity": "cleared",
+          "description": "neighbor 10.115.55.69 Up",
+          "category": "BGP",
+          "source-object-ref": "MD=CISCO_EPNM!ND=12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+          "source-object-name": "BGP Neighbor : 10.115.55.69",
+          "source-object-id": 32606892,
+          "node-ref": "12OG-C73-G000-F05-02.mstn.optusnet.com.au",
+          "business-key": "10.197.153.6:10.115.55.69::BGP-5-ADJCHANGE##SubAlarm@@_4583",
+          "cause-type": "cause-unknown",
+          "ack-state": "unacknowledged",
+          "remote-interface-ip-address": "10.197.153.6",
+          "system-received-time": "2023-11-17 06:58:33.089",
+          "system-received-time-iso8601": "2023-11-17T06:58:33.089Z",
+          "system-update-time": "2023-11-17 20:47:35.779",
+          "system-update-time-iso8601": "2023-11-17T20:47:35.779Z",
+          "node-event-time": "2023-11-17 20:47:34.668",
+          "node-event-time-iso8601": "2023-11-17T20:47:34.668Z",
+          "probable-cause": "BGP-5-ADJCHANGE_DOWN",
+          "service-impacting": "service-impacting-unknown",
+          "root-cause-alarm-identifier": {
+            "event-identifier": 0
+          },
+          "user-defined-fields": ""
+        }
+      ]
+    }
+  }
+}
+
+

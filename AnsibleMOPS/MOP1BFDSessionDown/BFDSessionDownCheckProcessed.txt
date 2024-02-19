@@ -1,0 +1,35 @@
+Where: all servers
+
+Command: show fm alarm
+
+Example: below for ref
+
+<START>NODE=vEPC_O4MOvEPG02, OBJCLASS=vEPC_O4MOvEPG02, EVENTID=BFD Session Down, TRAPDESC=BFD Session Down<END>
+
+BFD Session Down
+
+ManagedObject=SubNetwork=vEPC,MeContext=Meep,contexts=1,context=sgi_nat,router=1,bfd=1,interface=0x10000032,neighbor="2405:dc00:42:16e::3"
+
+MajorType=0
+
+MinorType=54643935
+
+SpecificProblem=BFD Session Down
+
+LastSequenceNo=525612
+
+EventType=CommunicationsAlarm
+
+EventTime=2023-03-01 04:49:01.0,+0:0
+
+ProbableCause=Unknown AdditionalText=The status of BFD session is changed to DOWN/ADMINDOWN
+
+MoreAdditionalText=false
+
+ResourceId=false
+
+AdditionalInfo=
+
+MoreAdditionalInfo=false
+
+eriAlarmMajor

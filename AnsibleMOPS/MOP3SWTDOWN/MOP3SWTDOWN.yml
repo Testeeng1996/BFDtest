@@ -1,0 +1,553 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    deviceIP: "{{ deviceIP }}"  # replace with your device IP or define elsewhere
+    enmpIP: "{{ enmpIP }}"
+    source_file1: "epnmPassCaseTemplate.txt"
+    destination_file1: "epnmPassCase.txt"
+    source_file2: "epnmFailCaseTemplate.txt"
+    destination_file2: "epnmFailCase.txt"
+    source_file3: "passwordCasePassTemplate.txt"
+    destination_file3: "passwordPassCase.txt"
+    source_file4: "passwordCaseFailTemplate.txt"
+    source_file5: "credentials.txt"
+    destination_file4: "passwordPassFail.txt"
+    allChecksPassed: true
+    failConditionsMet: true
+    snmpwalk_timeout: "Timeout (Sub-id not found: (top) -> system)"
+    stored_password: "actual_password"  # Retrieved from a vault-encrypted file
+    regex_pattern: '"probable-cause": "SWT_SWITCH_DOWN"'
+
+
+    # Section for ENMP 
+
+    target_alarm_cause: "SWT_SWITCH_DOWN" #This alarm determines the SWT DOWN alarms that are picked up in conjunction with the flag below, target_alarm_severity. 
+    target_alarm_severity: "cleared" #This flag will determine whether the alarms that are picked up for SWT DOWN are cleared or not
+    #The structure of the JSON input is checked below for all cases. This is a robust way to make sure the system has a valid input that isn't corrupted in any way.  
+    expected_structure:
+      "com.response-message":
+        "com.header":
+          - "com.firstIndex"
+          - "com.lastIndex"
+          - "com.iteratorId"
+        "com.data": "expected_string"
+
+    deviceIP: "{{ deviceIP }}"  # replace with your device IP or define elsewhere
+    enmpIP: "{{ enmpIP }}" 
+    ndRef: "{{ ndRef }}"
+    #    deviceIP:   # This is the same thing as Node IP. Each Node IP will have a 
+    #different set of alarms which is perfect for demonstrating the testing scenarios that follow because it will ensure anything thrown at the playbook can be handled. 
+    
+    #KEY VAlUE Pair Functionality
+    #{"1:192.168.1"}
+    #{"2:192.168.2"}
+    
+    nodes_ip_mapping:
+      1: 172.194.181.208
+      2: 172.194.183.208
+      3: 172.194.184.208
+      4: 172.194.186.208
+      5: 172.194.185.208
+      6: 172.194.187.208
+      7: 172.194.189.208
+    deviceCount: 0
+    #The file that is chosen from the list below depends on the IP that is passed to deviceIP. Each IP has it's own corresponding
+    #number which is then used to select the file from the list below as indexed. 
+    file_list:
+      - "No_Alarms_Template.txt" #This case has an empty array of alarms which occurs when there is nothing on the Node
+      - "No_Alarms_2_Template.txt" #This has an empty set also with different values associated with some of the keys. 
+      - "Single_Pass_Template.txt" #This has a single alarm that is SWT DOWN so it will be picked up in green
+      - "Single_Fail_Template.txt" #This has a single alarm that is not SWT DOWN so it will be skipped in blue
+      - "Group_Pass_Template.txt" #This has 3 alarms and one of them is SWT DOWN so that single alarm is printed
+        #in green and the others are skipped
+      - "Multi_Pass_Template.txt" #This has 3 alarms and 2 of them are SWT DOWN so are picked up in green and the remaining is skipped
+      - "Group_Fail_Template.txt" #This has 3 alarms and none of them are SWT DOWN so they are all skipped. 
+      
+    #There is extra coding logic that will also determine the problem severity and make sure it is not cleared even if SWT DOWN 
+    #is picked up because that would signify raising a ticket. 
+
+#    enmpIP: " {{ 10 }} " #This variable should be passed when running the playbook. It simulates logging into the 
+    #Node manager and extracting whatever JSON alarms are on that node. 
+
+  tasks:
+
+    - name: Setting up 
+      debug:
+        msg: Simulate logging into ENMP. 
+
+    - debug:
+        msg: " Device IP is: {{ deviceIP }}, ENMP IP is: {{ enmpIP }} and ndRef is {{ndRef}}"
+
+    - name: Read content from source file
+      ansible.builtin.slurp:
+        src: "{{ source_file1 }}"
+      register: slurped_content
+
+    - name: Decode the content from base64
+      set_fact:
+        original_content: "{{ slurped_content['content'] | b64decode }}"
+
+    - name: Replace *deviceIP* placeholder with actual device IP
+      ansible.builtin.copy:
+        dest: "{{ destination_file1 }}"
+        content: "{{ original_content | regex_replace('\\*deviceIP\\*', deviceIP) | regex_replace('<Device IP>', deviceIP) }}"
+        force: yes
+      when: original_content is defined
+
+    - name: Debug - Display deviceIP for Ping Command
+      ansible.builtin.debug:
+        msg: "Checking ping statistics for '{{ deviceIP }}' in destination_file1"
+
+    - name: Verify extracted IP
+      assert:
+        that:
+          - "deviceIP != '198.198.198.198'"
+        fail_msg: "Extracted values do not match the expected ones!"
+        success_msg: "Extracted values match the expected ones!"
+
+    - name: Read content from epnmPassCase.txt
+      ansible.builtin.slurp:
+        src: "epnmPassCase.txt"
+      register: slurped_content
+
+    - name: Decode the content from base64 and set as a fact
+      set_fact:
+        file_content: "{{ slurped_content['content'] | b64decode }}"
+
+    # Assuming 'ping_statistics' is the variable passed to the playbook
+    - name: Define the section start marker for SNMP information based on a variable
+      set_fact:
+        section_start: "--- {{ deviceIP }} ping statistics ---"
+
+    - name: Extract the section containing SNMP information from the start marker to the end of the file
+      set_fact:
+        snmp_section: "{{ file_content.split(section_start)[1] if section_start in file_content else '' }}"
+
+    - name: Debug output of the SNMP information section
+      ansible.builtin.debug:
+        var: snmp_section
+
+
+    - name: Ensure the extracted section is not empty and contains at least one label
+      assert:
+        that:
+          - snmp_section | length > 0
+          - "'SNMPv2-MIB::' in snmp_section" # Ensures there's at least one occurrence of a label
+        fail_msg: "FAIL: SNMP section is empty or does not contain valid labels."
+        success_msg: "PASS: SNMP section contains valid labels."
+
+
+
+
+
+    - name: Read content from source file
+      ansible.builtin.slurp:
+        src: "{{ source_file2 }}"
+      register: slurped_content
+
+    - name: Decode the content from base64
+      set_fact:
+        original_content2: "{{ slurped_content['content'] | b64decode }}"
+
+    - name: Replace *deviceIP* placeholder with actual device IP
+      ansible.builtin.copy:
+        dest: "{{ destination_file2 }}"
+        content: "{{ original_content2 | regex_replace('\\*deviceIP\\*', deviceIP) | regex_replace('<Device IP>', deviceIP) }}"
+        force: yes
+      when: original_content is defined
+
+    - name: Debug - Display deviceIP for Ping Command
+      ansible.builtin.debug:
+        msg: "Checking ping statistics for '{{ deviceIP }}' in destination_file1"
+
+
+
+
+    - name: Read content from enpmFailCase.txt
+      ansible.builtin.slurp:
+        src: "epnmFailCase.txt"
+      register: slurped_content
+
+    - name: Decode the content from base64 and set as a fact
+      set_fact:
+        file_content: "{{ slurped_content['content'] | b64decode }}"
+
+    - name: Define fail condition patterns to check
+      set_fact:
+        fail_patterns:
+          - '0 received'
+          - '100% packet loss'
+
+    - name: Check for each fail condition pattern
+      set_fact:
+        fail_conditions_met: "{{ failConditionsMet and (item | regex_search(file_content)) }}"
+      loop: "{{ fail_patterns }}"
+    
+    - name: Extract ping time
+      set_fact:
+        ping_time: "{{ 'time ' + (file_content | regex_search('time (\\d+)ms') | first) }}"
+    
+    - name: Print fail message if all fail conditions are met
+      ansible.builtin.debug:
+        msg: "FAIL: All fail conditions met - {{ ping_time }}"
+      when: failConditionsMet
+    
+    - name: Check for SNMP walk timeout message
+      set_fact:
+        snmpwalk_timeout_found: "{{ file_content | regex_search(snmpwalk_timeout) }}"
+  
+    - name: Print message for snmpwalk timeout
+      ansible.builtin.debug:
+        msg: "FAIL: {{ snmpwalk_timeout_found }}"
+      when: snmpwalk_timeout_found is not none and snmpwalk_timeout_found is iterable
+
+
+
+
+    - name: Read content from source file
+      ansible.builtin.slurp:
+        src: "{{ source_file3 }}"
+      register: slurped_content
+
+    - name: Decode the content from base64
+      set_fact:
+        original_content: "{{ slurped_content['content'] | b64decode }}"
+
+    - name: Replace *deviceIP* placeholder with actual device IP
+      ansible.builtin.copy:
+        dest: "{{ destination_file3 }}"
+        content: "{{ original_content | regex_replace('\\*deviceIP\\*', deviceIP) | regex_replace('<Device IP>', deviceIP) }}"
+        force: yes
+      when: original_content is defined
+
+    - name: Debug - Display deviceIP for Ping Command
+      ansible.builtin.debug:
+        msg: "Checking ping statistics for '{{ deviceIP }}' in destination_file1"
+
+
+
+
+
+    - name: Read content from source file
+      ansible.builtin.slurp:
+        src: "{{ source_file4 }}"
+      register: slurped_content
+
+    - name: Decode the content from base64
+      set_fact:
+        original_content: "{{ slurped_content['content'] | b64decode }}"
+
+    - name: Replace *deviceIP* placeholder with actual device IP
+      ansible.builtin.copy:
+        dest: "{{ destination_file4 }}"
+        content: "{{ original_content | regex_replace('\\*deviceIP\\*', deviceIP) | regex_replace('<Device IP>', deviceIP) }}"
+        force: yes
+      when: original_content is defined
+
+    - name: Debug - Display deviceIP for Ping Command
+      ansible.builtin.debug:
+        msg: "Checking ping statistics for '{{ deviceIP }}' in destination_file1"
+
+    - name: Read password from file
+      ansible.builtin.slurp:
+        src: "{{ source_file5}}"
+      register: password_content
+
+    - name: Decode base64 password
+      ansible.builtin.set_fact:
+        actual_password: "{{ (password_content.content | b64decode).strip() }}"
+
+    - name: Debug - Password
+      ansible.builtin.debug:
+        msg: "{{actual_password}}"
+
+
+    - block:
+
+        - name: Check if password matches
+          ansible.builtin.fail:
+            msg: "The passwords do not match!"
+          when: actual_password != stored_password
+
+        - name: Slurp the content of passwordCasePass.txt
+          slurp:
+           src: "passwordCasePass.txt"
+          register: password_case_content
+          check_mode: no
+          ignore_errors: yes
+
+        - name: Slurp the content of passwordCasePass.txt
+          slurp:
+           src: "passwordCaseFail.txt"
+          register: password_fail_content
+          check_mode: no
+          ignore_errors: yes
+
+        - name: Write content to new password case pass file
+          copy:
+            dest: "passwordCasePass.txt"
+            content: "{{ password_case_content['content'] | b64decode }}"
+            force: yes
+
+        - name: Fail if no 'No response' is found in file content
+          ansible.builtin.fail:
+           msg: "Expected 'No response' message found in passwordCaseFail.txt"
+          when: "'No response' in password_fail_content"
+
+
+      rescue:
+        - name: Slurp the content of passwordCaseFail.txt
+          slurp:
+           src: "passwordCaseFail.txt"
+          register: password_case_content
+          check_mode: no
+          ignore_errors: yes
+
+        - name: Write content to new password case pass file
+          copy:
+            dest: "passwordCaseFail.txt"
+            content: "{{ password_case_content['content'] | b64decode }}"
+            force: yes
+          when:
+            - password_case_content is defined
+            - password_case_content is succeeded
+            - username_check is skipped or username_check is succeeded
+            - password_check is skipped or password_check is succeeded
+
+
+
+    - name: Read loggingCheckPass.txt content
+      ansible.builtin.slurp:
+        src: loggingCheckPass.txt
+      register: logging_check
+
+    - name: Set fact for file content as a string
+      set_fact:
+        logging_content: "{{ logging_check['content'] | b64decode }}"
+
+    - name: Fail if LINK_DOWN is found in file content
+      ansible.builtin.fail:
+        msg: "LINK_DOWN term found in loggingCheckPass.txt"
+      when: "'LINK_DOWN' in logging_content"
+
+
+    - name: Read loggingCheckFail.txt content
+      ansible.builtin.slurp:
+        src: loggingCheckFail.txt
+      register: logging_fail_check
+
+    - name: Set fact for file content as a string
+      set_fact:
+        logging_fail_content: "{{ logging_fail_check['content'] | b64decode }}"
+
+    - name: Fail if LINK_DOWN is not found in file content
+      ansible.builtin.fail:
+        msg: "LINK_DOWN term not found in loggingCheckFail.txt"
+      failed_when: "'LINK_DOWN' not in logging_fail_content"
+
+
+
+#    - name: Force Fail
+#      ansible.builtin.fail:
+#        msg: "LINK_DOWN term not found in loggingCheckFail.txt"
+#      failed_when: "'LINK_DOWN' in logging_fail_content"
+
+
+
+    - name: Read content of Check1.txt
+      ansible.builtin.slurp:
+        src: Check1.txt
+      register: check1_content
+
+    - name: Convert content to string
+      set_fact:
+        check1_string: "{{ check1_content.content | b64decode }}"
+
+    - name: Replace <Device IP> with deviceIP in the string
+      set_fact:
+        check12_string: "{{ check1_string.replace('<Device IP>', deviceIP) }}"
+
+    - name: Write the replaced content to Check12
+      ansible.builtin.copy:
+        content: "{{ check12_string }}"
+        dest: Check12
+        force: yes  # overwrite Check12 if it already exists
+
+    - name: Debug - Display deviceIP for Ping Command
+      ansible.builtin.debug:
+        msg: "Checking ping statistics for '{{ deviceIP }}' in Check12"
+
+    - name: Check ping statistics
+      assert:
+        that:
+          - "'3 packets transmitted, 3 received, 0% packet loss, time 2002ms' in check12_string"
+        fail_msg: "Ping statistics do not match expected output."
+      register: ping_result
+
+    - name: Debug - Display message from assertion in Check Ping Statistics
+      ansible.builtin.debug:
+        msg: "{{ ping_result.msg }}"
+      when: ping_result.failed
+
+    - name: Debug - Display deviceIP for SNMP Command
+      ansible.builtin.debug:
+        msg: "Checking SNMP sysUpTimeInstance for '{{ deviceIP }}' in Check12"
+
+    - name: Debug - Display value being checked in SNMP sysUpTimeInstance
+      ansible.builtin.debug:
+        msg: "Checking for 'DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (4202026) 11:40:20.26' in Check12"
+
+    - name: Check SNMP sysUpTimeInstance
+      assert:
+        that:
+          - "'DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (4202026) 11:40:20.26' in check12_string"
+        fail_msg: "SNMP sysUpTimeInstance does not match expected output."
+
+
+
+#ENMP Section
+    - name: Set device count based on deviceIP
+      set_fact:
+        deviceCount: "{{ item.key | int }}"
+      when: item.value == deviceIP
+      with_dict: "{{ nodes_ip_mapping }}"
+    
+    - name: Display device count
+      debug:
+        msg: "The device count for IP {{ deviceIP }} is {{ deviceCount }}"
+        
+    - name: Select file from list
+      set_fact:
+        selected_file: "{{ file_list[deviceCount | int - 1] }}"
+      when: deviceCount | int > 0 and deviceCount | int <= 7
+
+    - name: Debug selected file
+      debug:
+        msg: "The selected file is {{ selected_file }}"
+
+    #Pretend to log into ENMP Node
+    - name: Setting up 
+      debug:
+        msg: Simulate logging into ENMP Node with ENMP IP. 
+
+    - debug:
+        msg: "ENMP IP: {{ enmpIP }}, DEVICE IP: {{ deviceIP }}"
+
+    #This section simulates posting the deviceIP. There is a template that is over ridden with the device IP and 
+    #writes the result to a new file. The template remains unchanged for reusability and the overridden file will
+    #change each time a different file is plugged into it. 
+    
+    - name: Read the contents of Template File
+      command: cat {{ selected_file}}
+      register: fileContentCheck1
+
+    - name: Replace device IP in file content
+      set_fact:
+        replacedTextPreCheck1: "{{ fileContentCheck1.stdout | replace('*deviceIP*', deviceIP) }}"
+
+    - name: Define new filename and set it as a variable
+      set_fact:
+        renamed_file: "{{ selected_file | regex_replace('_Template', '') }}"
+
+    - name: Write the final text to the renamed file
+      copy:
+        content: "{{ replacedTextPreCheck1 }}"
+        dest: "{{ renamed_file }}"
+
+    #This section checks the format is consistent with the JSON pulled from ENMP Node
+
+    - name: Read JSON file
+      ansible.builtin.slurp:
+        src: "{{ renamed_file }}"
+      register: json_file_content_1
+
+    - name: Decode JSON content
+      set_fact:
+        json_data_1: "{{ (json_file_content_1['content'] | b64decode) | from_json }}"
+
+    - name: Validate top-level keys
+      ansible.builtin.assert:
+        that: "item in json_data_1"
+        fail_msg: "Missing top-level key: {{ item }}"
+      loop: "{{ expected_structure.keys() }}"
+
+    - name: Validate nested keys in 'com.response-message'
+      ansible.builtin.assert:
+        that: 
+          - "'{{ nested_key.key }}' in json_data_1['com.response-message'] or json_data_1['com.response-message']['{{ nested_key.key }}'] is none"
+        fail_msg: "Missing nested key: {{ nested_key.key }} in com.response-message"
+      loop: "{{ expected_structure['com.response-message'] | dict2items }}"
+      loop_control:
+        loop_var: nested_key
+
+    - name: Validate nested list keys in 'com.header'
+      ansible.builtin.assert:
+        that: "'{{ item }}' in json_data_1['com.response-message']['com.header']"
+        fail_msg: "Missing nested list key: {{ item }} in com.header"
+      loop: "{{ expected_structure['com.response-message']['com.header'] }}"
+
+
+
+    - name: Validate nested list keys in 'com.header'
+      ansible.builtin.assert:
+        that: "'{{ item }}' in json_data_1['com.response-message']['com.header']"
+        fail_msg: "Missing nested list key: {{ item }} in com.header"
+      loop: "{{ expected_structure['com.response-message']['com.header'] }}"
+
+
+    #This section checks if there are any alarms on the ENMP. The playbook needs to stop here if there are no alarms... 
+    #Without necessarily failing. The way I have handled this issue is to ensure that when searching for the 
+    #SWT DOWN alarms I am also checking if it is using an empty set first.
+
+  #  - name: Initialize alarms array
+  #    set_fact:
+  #      alarms_array: []
+
+    - name: Main task check for alarms
+      block:
+        - name: Check if 'com.data' is empty
+          debug:
+            msg: "'com.data' is empty."
+          when: json_data_1['com.response-message']['com.data'] == ""
+
+        - name: Read JSON file
+          ansible.builtin.slurp:
+            src: "{{ renamed_file }}"
+          register: json_file_content_1
+          when: json_data_1['com.response-message']['com.data'] != ""
+    
+        - name: Decode JSON content
+          set_fact:
+            json_data_2: "{{ (json_file_content_1['content'] | b64decode) | from_json }}"
+          when: json_data_1['com.response-message']['com.data'] != "" and json_file_content_1 is defined
+
+        - name: Debug JSON data before iteration
+          debug:
+            msg: "Processing data from file: {{ renamed_file }}"
+          when: json_data_1['com.response-message']['com.data'] != "" and json_file_content_1 is defined
+
+        - name: Initialize alarms array
+          set_fact:
+            alarms_array: []
+          when: json_data_1['com.response-message']['com.data'] != ""
+
+        - name: Initialize alarms array
+          set_fact:
+            alarms_array: []
+          when: json_data_1['com.response-message']['com.data'] != ""
+
+        - name: Iterate through alarms in 'alm.alarm' 1
+          set_fact:
+            alarms_array: "{{ alarms_array + ['SWT_SWITCH_DOWN Alarm Event Identifier: ' + (alarm_item['alm.alarm-identifier']['alm.event-identifier'] | string) ] }}"
+          loop: "{{ json_data_1['com.response-message']['com.data']['alm.alarm'] }}"
+          loop_control:
+            loop_var: alarm_item
+          when: 
+            - json_data_1['com.response-message']['com.data'] != ""
+            - alarm_item['alm.probable-cause'] == target_alarm_cause and alarm_item['alm.perceived-severity'] != target_alarm_severity
+
+        - name: Determine if alarms are found or not
+          debug:
+            msg: "{{ 'Alarm Found' if (alarms_array is defined and alarms_array | length > 0) else 'Alarms Not Found' }}"

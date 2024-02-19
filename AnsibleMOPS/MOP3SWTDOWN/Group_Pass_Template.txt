@@ -1,0 +1,96 @@
+{
+	"com.response-message": {
+		"com.header": {
+			"com.firstIndex": 0,
+			"com.lastIndex": 2,
+			"com.iteratorId": 15248554661
+		},
+		"com.data": {
+			"alm.alarm": [
+				{
+					"alm.alarm-identifier": {
+						"alm.event-identifier": 14947280518,
+						"alm.resource-object-ref": "MD=CISCO_EPNM!ND=s2ahcsr01.optus.com.au!FTP=name=GigabitEthernet0/0/0/2;lr=lr-gigabit-ethernet",
+						"alm.probable-cause": "LINK_DOWN"
+					},
+					"alm.perceived-severity": "critical",
+					"alm.description": "Port 'GigabitEthernet0/0/0/2' (Description: ' S2AH S2AH ETHCHL 00000002 EO6757395') is down on device '*deviceIP*'. - generated due to device synchronization",
+					"alm.category": "Switches and Routers",
+					"alm.source-object-ref": "MD=CISCO_EPNM!ND=s2ahcsr01.optus.com.au!FTP=name=GigabitEthernet0/0/0/2;lr=lr-gigabit-ethernet",
+					"alm.source-object-name": "GigabitEthernet0/0/0/2",
+					"alm.source-object-id": 8411943359,
+					"alm.node-ref": "*deviceIP*:s2ahcsr01.optus.com.au",
+					"alm.business-key": "LINK_DOWN:*deviceIP*:If: GigabitEthernet0/0/0/2##SubAlarm@@_1",
+					"alm.cause-type": "cause-unknown",
+					"alm.ack-state": "unacknowledged",
+					"alm.remote-interface-ip-address": "*deviceIP*",
+					"alm.system-received-time": "2023-11-08 23:11:47.828",
+					"alm.system-received-time-iso8601": "2023-11-08T23:11:47.828Z",
+					"alm.system-update-time": "2023-11-08 23:11:47.828",
+					"alm.system-update-time-iso8601": "2023-11-08T23:11:47.828Z",
+					"alm.probable-cause": "LINK_DOWN",
+					"alm.service-impacting": "service-impacting",
+					"alm.root-cause-alarm-identifier": {
+						"alm.event-identifier": 0
+					},
+					"alm.user-defined-fields": ""
+				},
+				{
+					"alm.alarm-identifier": {
+						"alm.event-identifier": 15005321101,
+						"alm.resource-object-ref": "MD=CISCO_EPNM!ND=s2ahcsr01.optus.com.au",
+						"alm.probable-cause": "SWT_SWITCH_DOWN"
+					},
+					"alm.perceived-severity": "critical",
+					"alm.description": "Device 's2ahcsr01.optus.com.au' is unreachable.",
+					"alm.category": "Switches and Routers",
+					"alm.source-object-ref": "MD=CISCO_EPNM!ND=s2ahcsr01.optus.com.au",
+					"alm.source-object-id": 0,
+					"alm.node-ref": "*deviceIP*:s2ahcsr01.optus.com.au",
+					"alm.business-key": "OperStatus_*deviceIP*##SubAlarm@@_3",
+					"alm.cause-type": "cause-unknown",
+					"alm.ack-state": "unacknowledged",
+					"alm.remote-interface-ip-address": "*deviceIP*",
+					"alm.system-received-time": "2023-11-13 21:50:35.921",
+					"alm.system-received-time-iso8601": "2023-11-13T21:50:35.921Z",
+					"alm.system-update-time": "2023-11-13 21:50:35.921",
+					"alm.system-update-time-iso8601": "2023-11-13T21:50:35.921Z",
+					"alm.probable-cause": "SWT_SWITCH_DOWN",
+					"alm.service-impacting": "service-impacting-unknown",
+					"alm.root-cause-alarm-identifier": {
+						"alm.event-identifier": 0
+					},
+					"alm.user-defined-fields": ""
+				},
+				{
+					"alm.alarm-identifier": {
+						"alm.event-identifier": 15248554661,
+						"alm.resource-object-ref": "MD=CISCO_EPNM!ND=s2ahcsr01.optus.com.au!EQ=name=TwentyFiveGigE0/0/0/31;partnumber=SFP-10/25G-LR-S",
+						"alm.probable-cause": "cefcFRURemoved"
+					},
+					"alm.perceived-severity": "cleared",
+					"alm.description": "Device s2ahcsr01.optus.com.au. FRU:Cisco SFP-10/25G-LR Pluggable Optics Module:TwentyFiveGigE0/0/0/31 inserted",
+					"alm.category": "Switches and Routers",
+					"alm.source-object-ref": "MD=CISCO_EPNM!ND=s2ahcsr01.optus.com.au!EQ=name=TwentyFiveGigE0/0/0/31;partnumber=SFP-10/25G-LR-S",
+					"alm.source-object-name": "TwentyFiveGigE0/0/0/31",
+					"alm.source-object-id": 10208390317,
+					"alm.node-ref": "*deviceIP*:s2ahcsr01.optus.com.au",
+					"alm.business-key": "cefcFRU:*deviceIP*:2011137##SubAlarm@@_1",
+					"alm.cause-type": "cause-unknown",
+					"alm.ack-state": "unacknowledged",
+					"alm.remote-interface-ip-address": "*deviceIP*",
+					"alm.system-received-time": "2023-11-25 21:35:26.386",
+					"alm.system-received-time-iso8601": "2023-11-25T21:35:26.386Z",
+					"alm.system-update-time": "2023-11-30 01:09:16.712",
+					"alm.system-update-time-iso8601": "2023-11-30T01:09:16.712Z",
+					"alm.probable-cause": "cefcFRURemoved",
+					"alm.service-impacting": "service-impacting-unknown",
+					"alm.root-cause-alarm-identifier": {
+						"alm.event-identifier": 0
+					},
+					"alm.user-defined-fields": ""
+				}
+			]
+		}
+	}
+}

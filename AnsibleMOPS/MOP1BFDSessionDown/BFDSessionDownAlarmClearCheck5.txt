@@ -1,0 +1,32 @@
+[local]O4MOvEPG02#show fm alarm
+Sun Aug  20 12:22:24.580 UTC+00:00
+fm alarm 254
+ source                   /epg:epg/pgw/shared-ip-pool[name='ipp_ims']
+ last-event-time          2023-07-03T14:34:29+00:00
+ sequence-number          510
+ active-severity          major
+ additional-text          "The Ipv4 addresses utilization level of shared IP pool=ipp_ims has reached threshold=100%"
+ major-type               193
+ minor-type               2300313730
+ specific-problem         "Ipv4 Shared IP Pool Threshold Reached"
+ event-type               processing-error-alarm
+ probable-cause           system-resources-overload
+ original-event-time      2023-07-03T14:25:28+00:00
+ original-severity        minor
+ original-additional-text "The Ipv4 addresses utilization level of shared IP pool=ipp_ims has reached threshold=80%"
+fm alarm 622
+ source                   /epg:epg/pgw/diameter-peer[name='S6b.o2o3s1.epc.mnc002.mcc505.3gppnetwork.org']/remote-address[name='10.193.42.33']
+ last-event-time          2023-08-20T12:22:10+00:00
+ sequence-number          3919
+ active-severity          minor
+ additional-text          "SCTP path lost to the Diameter peer=10.193.42.33:3892"
+ major-type               193
+ minor-type               2300313703
+ specific-problem         "SCTP Path to Diameter Peer Failed"
+ event-type               communications-alarm
+ probable-cause           connection-establishment-error
+ original-event-time      2023-08-20T12:22:10+00:00
+ original-severity        minor
+ original-additional-text "SCTP path lost to the Diameter peer=10.193.42.33:3892"
+[local]O4MOvEPG02#
+

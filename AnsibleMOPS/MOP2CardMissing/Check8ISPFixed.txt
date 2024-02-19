@@ -1,0 +1,10 @@
+Purpose: Printout the ISP-Logs related to the card# which is missed and is matched with the alarm time.
+Where: all servers
+Command: the x from below has to be considered from above step ie; in this case its card 26
+show isp-log | in "Linecard_up;System;Auto;Slot x"
+show isp-log | in "BOARD_UP;EPG_S;Auto;Board is up and is connected to the EPG application. The board is located at board group 0, board x"
+Example: 
+Sun Apr  2 21:39:29 2023 UTC;Linecard_up;System;Auto;Slot 26, vsfo;22.2.1.1.8;;4093611;
+Sun Apr  2 21:39:36 2023 UTC;BOARD_UP;EPG_S;Auto;Board is up and is connected to the EPG application. The board is located at board group 0, board 26.;26.2.1.1.8;;4093618;
+
+

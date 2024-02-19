@@ -1,0 +1,10 @@
+Command: show logging 
+Note:      This will be taken care by advanced correlation and will be implemented in next phase.      
+NGCE:
+LINK_DOWN
+ROUTING-ISIS-5-ADJCHANGE
+BGP-5-ADJCHANGE
+NGTT+:
+LINK_DOWN
+%ROUTING-OSPF-5-ADJCHG
+BGP-5-ADJCHANGE

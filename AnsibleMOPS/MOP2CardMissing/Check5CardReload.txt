@@ -1,0 +1,21 @@
+Purpose:  After 5 to 10mins check if the alarm is cleared or not
+Where: All EPG cards for which recovery steps are executed to fix “” alarm 
+Command: show fm alarm
+Output example:
+[local]22RRvEPG01#show fm alarm
+Thu Jul  6  04:16:57.702 UTC+00:00
+fm alarm 11280
+ source                   /epg:epg/pgw/shared-ip-pool[name='ipp_ims']
+ last-event-time          2023-07-05T15:47:06+00:00
+ sequence-number          22472
+ active-severity          major
+ additional-text          "The Ipv4 addresses utilization level of shared IP pool=ipp_ims has reached threshold=100%"
+ major-type               193
+ minor-type               2300313730
+ specific-problem         "Ipv4 Shared IP Pool Threshold Reached"
+ event-type               processing-error-alarm
+ probable-cause           system-resources-overload
+ original-event-time      2023-07-05T15:29:17+00:00
+ original-severity        minor
+ original-additional-text "The Ipv4 addresses utilization level of shared IP pool=ipp_ims has reached threshold=80%"
+[local]22RRvEPG01#

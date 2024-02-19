@@ -1,0 +1,173 @@
+[local]O4MOvEPG02#show bfd session ipv6 all-context
+Fri Mar  3  13:07:03.588 UTC+00:00
+Context   :local                          Context id  : 0x40080001  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :gn                             Context id  : 0x40080002  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :li                             Context id  : 0x40080003  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :oam                            Context id  : 0x40080004  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :pcc                            Context id  : 0x40080005  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :s11                            Context id  : 0x40080006  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :s1u                            Context id  : 0x40080007  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :sgi_fbb                        Context id  : 0x40080008  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+2405:dc00:42:166::2
+                34500027    300/1000       3       Up                     0x1701002e  0x10016     
+2405:dc00:42:166::3
+                34500028    300/1000       3       Up                     0x1701003b  0x1000a     
+2405:dc00:42:169::2
+                3450002a    300/1000       3       Up                     0x1801001e  0x10010     
+2405:dc00:42:169::3
+                34500029    300/1000       3       Up                     0x1801003a  0x10007     
+2405:dc00:42:16c::2
+                3450006c    300/1000       3       Up                     0x1901003b  0x1000b     
+2405:dc00:42:16c::3
+                3450006d    300/1000       3       Up                     0x1901003a  0x10004     
+2405:dc00:42:16f::2
+                0           300/1000       3       Admin Down             0x0         0x0         
+2405:dc00:42:16f::3
+                0           300/1000       3       Admin Down             0x0         0x0         
+Context   :sgi_nat                        Context id  : 0x40080009  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+2405:dc00:42:165::2
+                3450002b    300/1000       3       Up                     0x17010021  0x10018     
+2405:dc00:42:165::3
+                3450002e    300/1000       3       Up                     0x17010020  0x1000b     
+2405:dc00:42:168::2
+                3450002c    300/1000       3       Up                     0x1801001f  0x10012     
+2405:dc00:42:168::3
+                3450002d    300/1000       3       Up                     0x1801003b  0x10008     
+2405:dc00:42:16b::2
+                3450006e    300/1000       3       Up                     0x1901002b  0x1000d     
+2405:dc00:42:16b::3
+                3450006f    300/1000       3       Up                     0x1901002a  0x10005     
+2405:dc00:42:16e::2
+                0           300/1000       3       Admin Down             0x0         0x0         
+2405:dc00:42:16e::3
+                0           300/1000       3       Admin Down             0x0         0x0         
+Context   :sgi_fw                         Context id  : 0x4008000a  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :sgi_ims                        Context id  : 0x4008000b  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+2405:dc00:42:164::2
+                34500030    300/1000       3       Up                     0x17010035  0x1001a     
+2405:dc00:42:164::3
+                3450002f    300/1000       3       Up                     0x17010036  0x1000c     
+2405:dc00:42:167::2
+                34500031    300/1000       3       Up                     0x18010021  0x10014     
+2405:dc00:42:167::3
+                34500032    300/1000       3       Up                     0x18010020  0x10009     
+2405:dc00:42:16a::2
+                34500070    300/1000       3       Up                     0x19010034  0x1000f     
+2405:dc00:42:16a::3
+                34500071    300/1000       3       Up                     0x19010035  0x10006     
+2405:dc00:42:16d::2
+                3450009d    300/1000       3       Up                     0x1a01001a  0x10009     
+2405:dc00:42:16d::3
+                3450009e    300/1000       3       Up                     0x1a010019  0x10003     
+Context   :sgi_vocusradius                Context id  : 0x4008000c  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :sgi_vocus                      Context id  : 0x4008000d  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+Context   :internal-node-sx-context       Context id  : 0x4008000e  
+------------------------------------------------------------------
+Neighbor     Nexthop-Grid   Minimum    Multiplier  State     Home/        Discriminator           
+                           Tx/Rx intvl                      Backup        Local       Remote      
+[local]O4MOvEPG02#show static route ipv6 all
+Fri Mar  3  13:07:12.409 UTC+00:00
+Context   :local                          Context id  : 0x40080001  
+------------------------------------------------------------------
+Context   :gn                             Context id  : 0x40080002  
+------------------------------------------------------------------
+Context   :li                             Context id  : 0x40080003  
+------------------------------------------------------------------
+Context   :oam                            Context id  : 0x40080004  
+------------------------------------------------------------------
+Context   :pcc                            Context id  : 0x40080005  
+------------------------------------------------------------------
+Context   :s11                            Context id  : 0x40080006  
+------------------------------------------------------------------
+Context   :s1u                            Context id  : 0x40080007  
+------------------------------------------------------------------
+Context   :sgi_fbb                        Context id  : 0x40080008  
+------------------------------------------------------------------
+
+Prefix             Best      NType Addr/Intf/Cntx    NS  Dist  F  BFD  Tag  ETI
+2405:dc00:42:181::1/128 yes       addr  2405:dc00:42:166::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:169::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16c::2 up  1        yes  0x0  -  
+                   no        addr  2405:dc00:42:16f::2 up  1        yes  0x0  -  
+2405:dc00:42:181::2/128 yes       addr  2405:dc00:42:166::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:169::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16c::3 up  1        yes  0x0  -  
+                   no        addr  2405:dc00:42:16f::3 up  1        yes  0x0  -  
+
+Total static route in context : 2, total path: 8
+Context   :sgi_nat                        Context id  : 0x40080009  
+------------------------------------------------------------------
+
+Prefix             Best      NType Addr/Intf/Cntx    NS  Dist  F  BFD  Tag  ETI
+2405:dc00:42:180::1/128 yes       addr  2405:dc00:42:165::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:168::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16b::2 up  1        yes  0x0  -  
+                   no        addr  2405:dc00:42:16e::2 up  1        yes  0x0  -  
+2405:dc00:42:180::2/128 yes       addr  2405:dc00:42:165::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:168::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16b::3 up  1        yes  0x0  -  
+                   no        addr  2405:dc00:42:16e::3 up  1        yes  0x0  -  
+
+Total static route in context : 2, total path: 8
+Context   :sgi_fw                         Context id  : 0x4008000a  
+------------------------------------------------------------------
+Context   :sgi_ims                        Context id  : 0x4008000b  
+------------------------------------------------------------------
+
+Prefix             Best      NType Addr/Intf/Cntx    NS  Dist  F  BFD  Tag  ETI
+2405:dc00:42:17f::1/128 yes       addr  2405:dc00:42:164::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:167::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16a::2 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16d::2 up  1        yes  0x0  -  
+2405:dc00:42:17f::2/128 yes       addr  2405:dc00:42:164::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:167::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16a::3 up  1        yes  0x0  -  
+                   yes       addr  2405:dc00:42:16d::3 up  1        yes  0x0  -  
+
+Total static route in context : 2, total path: 8
+Context   :sgi_vocusradius                Context id  : 0x4008000c  
+------------------------------------------------------------------
+Context   :sgi_vocus                      Context id  : 0x4008000d  
+------------------------------------------------------------------
+Context   :internal-node-sx-context       Context id  : 0x4008000e  
+------------------------------------------------------------------
+[local]O4MOvEPG02#

@@ -1,0 +1,33 @@
+---
+- name: Check for SWT_SWITCH_DOWN in JSON files
+  hosts: localhost
+  gather_facts: no
+  vars:
+    regex_pattern: '"probable-cause": "SWT_SWITCH_DOWN"'
+  tasks:
+    - name: Read JSON data from file jsonENMPData.txt
+      slurp:
+        src: "jsonNoSWTDOWN.txt"
+      register: json_content_enmp
+
+    - name: Check for Probable Cause in jsonENMPData.txt
+      set_fact:
+        found_in_enmp: "{{ (json_content_enmp['content'] | b64decode | regex_search(regex_pattern)) is not none }}"
+
+    - name: Display result for jsonENMPData.txt
+      debug:
+        msg: "Probable cause SWT_SWITCH_DOWN found in jsonENMPData.txt"
+      when: found_in_enmp
+
+    - name: Proceed to check jsonNoSWTDOWN.txt if not found in jsonENMPData.txt
+      block:
+        - name: Read JSON data from file jsonNoSWTDOWN.txt
+          slurp:
+            src: "jsonNoSWTDOWN.txt"
+          register: json_content_no_down
+
+        - name: Check for absence of Probable Cause in jsonNoSWTDOWN.txt
+          debug:
+            msg: "SWT_SWITCH_DOWN not found in jsonNoSWTDOWN.txt"
+          when: (json_content_no_down['content'] | b64decode | regex_search(regex_pattern)) is none
+      when: not found_in_enmp

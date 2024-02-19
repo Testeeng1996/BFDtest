@@ -1,0 +1,23 @@
+Command: ping 172.194.181.208 -c 100
+                   snmpwalk -v3 -l authPriv -u mstn -a MD5 -A mstn12345 -x AES -X mstn12345 172.194.181.208  system – What is this?
+Example: below for ref
+
+-bash-4.2$ ping 172.194.181.208 -c 100
+PING 172.194.181.208 (172.194.181.208) 56(84) bytes of data.
+64 bytes from 172.194.181.208: icmp_seq=1 ttl=247 time=1.27 ms
+64 bytes from 172.194.181.208: icmp_seq=2 ttl=247 time=1.49 ms
+64 bytes from 172.194.181.208: icmp_seq=3 ttl=247 time=1.39 ms
+^C
+--- 172.194.181.208 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 1.279/1.389/1.493/0.092 ms
+-bash-4.2$
+bash-4.2$ snmpwalk -v3 -l authPriv -u mstn -a MD5 -A mstn12345 -x AES -X mstn12345 172.194.181.208  system
+SNMPv2-MIB::sysDescr.0 = STRING: Cisco IOS XR Software (NCS-540), Version 7.5.2  version1 Copyright (c) 2013-2022 by Cisco Systems, Inc.
+SNMPv2-MIB::sysObjectID.0 = OID: SNMPv2-SMI::enterprises.9.1.3009
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (4202026) 11:40:20.26
+SNMPv2-MIB::sysContact.0 = STRING: NokiaNMCTXN@nka.optusvendor.com.au
+SNMPv2-MIB::sysName.0 = STRING: o2uvaa01.optus.com.au
+SNMPv2-MIB::sysLocation.0 = STRING: O2UV.0200.F01.34
+SNMPv2-MIB::sysServices.0 = INTEGER: 78
+-bash-4.2$

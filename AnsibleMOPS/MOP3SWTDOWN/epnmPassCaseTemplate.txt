@@ -1,0 +1,18 @@
+Command: ping *deviceIP* -c 100
+                   snmpwalk -v3 -l authPriv -u mstn -a MD5 -A mstn12345 -x AES -X mstn12345 <Device IP>  system
+Example: below for ref
+PASS:
+-bash-4.2$ ping *deviceIP* -c 100
+PING *devieIP* (*deviceIP*) 56(84) bytes of data.
+64 bytes from *deviceIP*: icmp_seq=1 ttl=247 time=1.27 ms
+64 bytes from *deviceIP*: icmp_seq=2 ttl=247 time=1.49 ms
+64 bytes from *deviceIP*: icmp_seq=3 ttl=247 time=1.39 ms
+^C
+--- *deviceIP* ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 1.279/1.389/1.493/0.092 ms
+-bash-4.2$
+bash-4.2$ snmpwalk -v3 -l authPriv -u mstn -a MD5 -A mstn12345 -x AES -X mstn12345 *deviceIP*  system
+SNMPv2-MIB::sysDescr.0 = STRING: Cisco IOS XR Software (NCS-540), Version 7.5.2  version1 Copyright (c) 2013-2022 by Cisco Systems, Inc.
+
+-bash-4.2$

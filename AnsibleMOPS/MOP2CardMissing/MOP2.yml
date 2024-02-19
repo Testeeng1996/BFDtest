@@ -1,0 +1,320 @@
+---
+- name: Check for "Card Missing" Alarm
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    nodes_ip_mapping:
+      22BTEPG01:	10.194.25.114
+      22BTEPG02:	10.194.25.122
+      33EBEPG01:	10.194.32.242
+      33EBEPG02:	10.194.137.56
+      33VSEPG01:	10.194.32.114
+      44RDEPG02:	10.194.152.170
+      22BTvEPG01:	10.194.181.208
+      22BTvEPG02:	10.194.183.208
+      33EBvEPG01:	10.194.184.208
+      33EBvEPG02:	10.194.186.208
+      33VSvEPG01:	10.194.185.208
+      33VSvEPG02:	10.194.187.208
+      44RDvEPG01:	10.194.189.208
+      44RDvEPG02:	10.194.191.208
+      O6LXvEPG01:	10.194.180.208
+      O6LXvEPG02:	10.194.182.208
+      O4MOvEPG01:	10.194.176.208
+      O4MOvEPG02:	10.194.178.208
+      O5RXvEPG01:	10.194.188.208
+      O5RXvEPG02:	10.194.190.208
+      22RRvEPG01:	10.194.177.208
+      22RRvEPG02:	10.194.179.208
+
+  vars_prompt:
+    - name: "confirm_reload"
+      prompt: "Do you want to reload the card? (Y/N)"
+      private: no
+
+
+  tasks:
+    - name: Setting up 
+      debug:
+        msg: Simulate logging into Node IP via Lookup Table. 
+
+    - debug:
+        msg: "Node: {{ nodeName }}, IP: {{ nodes_ip_mapping[nodeName] }}"
+
+    - name: Print the nodeName and alarmName
+      debug:
+        msg: "Additional text is {{ additionalText }} and Card Slot Number is {{ cardNumber }}"
+
+    - name: Copy original file as a new file
+      ansible.builtin.copy:
+        src: Check1AlarmCheckCardMissing.txt
+        dest: NewCheck1AlarmMissing.txt
+        remote_src: yes  # This is important if the source file is on the remote machine
+
+    - name: Replace *cardNumber* with actual value in NewCheck1.txt
+      ansible.builtin.replace:
+        path: NewCheck1AlarmMissing.txt
+        regexp: '\*cardNumber\*'
+        replace: '{{ cardNumber }}'
+
+    - name: Check 1    Alarm checks for Card Missing
+      debug:
+        msg: The purpose is to enter below command to see the current Active alarms and check if the alarm exists on node.
+
+    - name: Obtain Card (Part 1)
+      command: python3 ExtractCheck1DataAlarmMissing.py "{{ additionalText }}"
+      register: card_slot_output
+
+    - name: Print Card Info (Part 1)
+      ansible.builtin.debug:
+        msg: "Card Slot Number: {{ card_slot_output.stdout }}"
+      when: card_slot_output.stdout is defined
+
+    - debug:
+        msg: "cardNumber: '{{ cardNumber }}'"
+
+    - debug:
+        msg: "Card Slot Number: '{{ card_slot_output.stdout }}'"
+
+
+    - name: Extract number from card_slot_output.stdout
+      set_fact:
+        extracted_card_slot_number: "{{ card_slot_output.stdout | regex_search('Card Slot Numbers: (\\d+)', '\\1') }}"
+      when: card_slot_output.stdout is defined
+
+    - name: debug extracted_card_slot_number
+      debug:
+        msg: "Extracted Card Slot Number: '{{ extracted_card_slot_number }}'"
+
+    - debug:
+        msg: "Length of cardNumber: {{ cardNumber | length }}"
+
+    - debug:
+        msg: "Length of extracted_card_slot_number: {{ extracted_card_slot_number[0] | length }}"
+
+
+
+    - name: Check if cardNumber is the same as extracted Card Slot Number
+      fail:
+        msg: "cardNumber is not the same as Card Slot Number"
+      when: (cardNumber | string | trim) != (extracted_card_slot_number[0] | string | trim)
+
+
+    - name: Check 2    Card related checks from ISP logs
+      debug:
+        msg: The purpose here is to printout the ISP Logs related to the card number which is missed and is matched with the alarm time.
+   
+    - name: Get the File (Part 2)
+      slurp:
+        src: Check2CardChecksISPLogs.txt
+      register: file_contents
+
+    - name: Is the card down at the moment?
+      set_fact:
+        modified_contents: "{{ (file_contents.content | b64decode).replace('x', card_slot_output.stdout) }}"
+      when: file_contents.content is defined
+
+    - name: Check for BOARD_DOWN or Linecard_down (Part 2)
+      set_fact:
+        found_term: "{{ 'pass' if file_contents.content | b64decode | string | regex_search('.*BOARD_DOWN.*|.*Linecard_down.*') else 'fail' }}"
+
+    - name: Yes the card is down. (Part 2)
+      debug:
+        var: found_term
+
+
+
+    - name: Check 3    Display Card status
+      debug:
+        msg: The purpose here is to simply display card status
+   
+
+    - name: Setting up Data (Part 3)
+      set_fact:
+        matching_lines: []
+
+    - name: Obtain data for card status (Part 3)
+      slurp:
+        src: Check3CardStatus.txt  # Replace with the actual path to your Check3.txt file
+      register: card_status_file
+
+    - name: Extract card status (Part 3)
+      set_fact:
+        card_status: "{{ card_status_file['content'] | b64decode | string }}"
+
+    - name: Extract Slot Number (Part 3)
+      set_fact:
+        card_slot_number: "{{ card_slot_output.stdout | regex_search('\\d+') }}"
+
+    - name: Print Expected Slot Number (Part 3)
+      debug:
+        var: card_slot_number
+
+    - name: Get Incorrrect Slot Numbers (Part 3)
+      set_fact:
+        extracted_slot_numbers: "{{ card_status | regex_findall('^\\s*(\\d+)\\s*:\\s*\\w+\\s+none\\s+n/a\\s+In Service', '\\1') }}"
+
+    - name: Process Extracted Slot Number (Part 3)
+      set_fact:
+        extracted_slot_number: "{{ extracted_slot_numbers[0] if extracted_slot_numbers | length > 0 else '' }}"
+
+    - name: Print Extracted Slot Number (Part 3)
+      debug:
+        var: extracted_slot_number
+
+    - name: Compare Extracted and Expected Slot Numbers (Part 3)
+      block:
+        - name: Print matching data (Part 3)
+          debug:
+            msg: "Card in slot {{ card_slot_number }} has 'none' Installed Type and 'n/a' Operational State"
+          when: extracted_slot_number == card_slot_number
+          
+        - name: Print if they don't match (Part 3)
+          debug:
+            msg: "Extracted slot number is {{ extracted_slot_number }}, but card_slot_number is {{ card_slot_number }}"
+          when: extracted_slot_number != card_slot_number
+
+
+
+    - name: Check 4    Display Card status
+      debug:
+        msg: The purpose here is to display card status of PGW and SGW Session controller
+
+    - name: Get Data (Part 4)
+      ansible.builtin.shell: cat Check4CardStatusPGWSGW.txt
+      register: file_content
+
+    - name: Get board information (Part 4)
+      set_fact:
+        board_data: "{{ file_content.stdout | regex_findall('board: (\\S+)[\\s\\S]*?function-name: (\\S+)[\\s\\S]*?status: (\\S+)', multiline=True) }}"
+
+    - name: Track board status (Part 4)
+      set_fact:
+        board_status: {}
+
+    - name: Add to board status (Part 4)
+      set_fact:
+        board_status: "{{ board_status | combine({item[0]: {'function': item[1], 'status': item[2]}}) }}"
+      with_items: "{{ board_data }}"
+      when: "item[1] == 'PGW' or item[1] == 'SGW'"
+      tags: skippable
+
+    - name: Check if both PGW and SGW are ready on each board (Part 4)
+      debug:
+        msg: "Board {{ item.key }} is {{ 'Ready' if (item.value.PGW.status == 'Ready' and item.value.SGW.status == 'Ready') else 'Not Ready' }}"
+      loop: "{{ board_status | dict2items }}"
+
+    - name: Print Data
+      debug:
+       var: board_data
+
+    - name: Print Status
+      debug:
+        var: board_status
+
+
+
+
+    - name: Check 5     Troubleshooting Recovery Procedure 
+      debug:
+        msg: There purpose is to simulate the procedure to Reload the Card to recover card and enable it to handle traffic and clear its alarm Card missing where all problematic EPG card reporting this alarm Card Missing
+
+  
+    - name: Check if user confirmed
+      fail:
+        msg: "User aborted the reload process"
+      when: confirm_reload | lower != 'y'
+
+    - name: Simulate Reload Cards
+      command: "echo reload card card{{ card_slot_number }}"
+      when: confirm_reload | lower == 'y'
+      register: result
+
+    - name: Show which card was reloaded
+      debug:
+        msg: "Reloaded card {{ card_slot_number }}"
+      when: result is changed
+
+
+
+
+
+
+    - name: Check 6    Post Alarm Check
+      debug:
+        msg: The purpose is to check after 5 to 10mins if the alarm is cleared or not where all EPG cards for which recovery steps are executed to fix Card Missing alarm. 
+
+
+
+    - name: Run the command and store the output (Part 6)
+      command: cat Check6AlarmChecks.txt 
+      register: command_output
+
+    - name: Check if "Card missing" is present in the output (Part 6)
+      fail:
+        msg: "The 'Card missing' string is found in the output."
+      when: "'Card missing' in command_output.stdout_lines[0]"
+
+    - name: Report success if "Card missing" is not present (Part 6)
+      debug:
+        msg: "The 'Card missing' string is not found in the output."
+
+    - name: Check if Card Missing Payload is present in the output (Part 6)
+      fail:
+        msg: "The additional text payload string is found in the output."
+      when: "'{{additionalText}}' in command_output.stdout_lines[0]"
+
+
+
+
+    - name: Check 7    Display Card status check
+      debug:
+        msg: The purpose is to display card status on all servers 
+
+    - name: Read the content of Check7.txt (Part 7)
+      ansible.builtin.shell: cat Check7PGWSGWFixed.txt
+      register: cat_output
+
+    - name: Extract Card Status (Part 7)
+      set_fact:
+        card_status: "{{ cat_output.stdout | regex_replace('(\n' + card_slot_number + '\\s+:\\s+vsfo\\s+vsfo\\s+IS\\s+In Service.*)', '\\1') }}"
+      when: cat_output.stdout is search(card_slot_number + '\\s+:\\s+vsfo\\s+vsfo\\s+IS\\s+In Service')
+
+    - name: Print status if card is back up (Part 7)
+      debug:
+        msg: "{{ card_slot_number }} is back up"
+      when: card_status is defined
+
+    - name: Fail the task if card is not back up (Part 7)
+      fail:
+        msg: "{{ card_slot_number }} is not back up"
+      when: card_status is undefined
+
+
+
+
+
+    - name: Check 8    Card related post checks from ISP logs
+      debug:
+        msg: The purpose is to printout the ISP Logs related to the card number which is missed and is matched with the alarm time on all servers
+
+    - name: Read the Check8.txt file (Part 8)
+      slurp:
+        src: Check8ISPFixed.txt
+      register: file_contents
+
+    - name: Decode and Replace 'x' with Slot Number (Part 8)
+      set_fact:
+        modified_contents: "{{ (file_contents.content | b64decode).replace('x', card_slot_output.stdout) }}"
+      when: file_contents.content is defined
+
+    - name: Check for BOARD_UP or Linecard_up (Part 8)
+      set_fact:
+        found_term: "{{ 'pass' if file_contents.content | b64decode | string | regex_search('.*BOARD_UP.*|.*Linecard_up.*') else 'fail' }}"
+
+    - name: Print result (Part 8)
+      debug:
+        var: found_term
+
+

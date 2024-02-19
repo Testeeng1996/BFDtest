@@ -1,0 +1,39 @@
+{
+  "response-message": {
+    "header": {
+      "firstIndex": 0,
+      "lastIndex": 0,
+      "iteratorId": 15076458070
+    },
+    "data": {
+      "alarm": {
+        "alarm-identifier": {
+          "event-identifier": 15076458070,
+          "resource-object-ref": "MD=CISCO_EPNM!ND=3VVN-C54-RV00-F04-11.optusnet.com.au",
+          "probable-cause": "SWT_SWITCH_DOWN"
+        },
+        "perceived-severity": "cleared",
+        "description": "Device '3VVN-C54-RV00-F04-11.optusnet.com.au' is reachable.",
+        "category": "Switches and Routers",
+        "source-object-ref": "MD=CISCO_EPNM!ND=3VVN-C54-RV00-F04-11.optusnet.com.au",
+        "source-object-id": 0,
+        "node-ref": "172.29.63.102:3VVN-C54-RV00-F04-11.optusnet.com.au",
+        "business-key": "OperStatus_172.29.63.102##SubAlarm@@_4",
+        "cause-type": "cause-unknown",
+        "ack-state": "unacknowledged",
+        "remote-interface-ip-address": "172.29.63.102",
+        "system-received-time": "2023-11-19 23:55:41.846",
+        "system-received-time-iso8601": "2023-11-19T23:55:41.846Z",
+        "system-update-time": "2023-11-20 00:15:35.857",
+        "system-update-time-iso8601": "2023-11-20T00:15:35.857Z",
+        "probable-cause": "SWT_SWITCH_DOWN",
+        "service-impacting": "service-impacting-unknown",
+        "root-cause-alarm-identifier": {
+          "event-identifier": 0
+        },
+        "user-defined-fields": ""
+      }
+    }
+  }
+}
+

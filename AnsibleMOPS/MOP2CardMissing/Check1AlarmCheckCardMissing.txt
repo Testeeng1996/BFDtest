@@ -1,0 +1,21 @@
+Purpose: Enter below command to see the current Active alarms and check if the alarm exists on node.
+Where: all servers
+Command: show fm alarm
+Example: below for ref
+[local]O4MOvEPG02#show fm alarm
+fm alarm 1007
+source                   /cardipr:card[cardipr:card-slot='*cardNumber*']
+last-event-time          2023-03-23T05:20:31+00:00
+sequence-number          11195
+active-severity          critical
+additional-text          "Card Missing"
+major-type               193
+minor-type               3188852755
+specific-problem         "Card Missing"
+event-type               equipment-alarm
+probable-cause           m3100-replaceable-unit-missing
+original-event-time      2023-03-23T05:20:31+00:00
+original-severity        critical
+original-additional-text "Card Missing"
+
+

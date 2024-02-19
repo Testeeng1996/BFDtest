@@ -1,0 +1,40 @@
+      Example: 
+        [local]O4MOvEPG02#config 
+        Fri Mar  3  13:14:50.801 UTC+00:00
+        Entering configuration mode private
+        O4MOvEPG02(config)# contexts context sgi_nat
+        Fri Mar  3  13:14:50.888 UTC+00:00
+              O4MOvEPG02(config-context-sgi_nat)# no ipv6 static-route 2405:dc00:42:180::2/128 next-hop-address 2405:dc00:42:16b::3
+          O4MOvEPG02(config-context-sgi_nat)# no ipv6 static-route 2405:dc00:42:180::2/128 next-hop-address 2405:dc00:42:16b::3
+          O4MOvEPG02(config-context-sgi_nat)# no ipv6 static-route 2405:dc00:42:180::2/128 next-hop-address 2405:dc00:42:16b::3
+            Fri Mar  3  13:14:56.277 UTC+00:00
+        O4MOvEPG02(config-context-sgi_nat)# commit
+        Fri Mar  3  13:14:58.765 UTC+00:00
+        Commit complete.
+        O4MOvEPG02(config-context-sgi_nat)# end
+        Fri Mar  3  13:15:02.966 UTC+00:00
+        [local]O4MOvEPG02#
+        
+        [local]O4MOvEPG02#config 
+        Fri Mar  3  13:15:08.546 UTC+00:00
+        Entering configuration mode private
+        O4MOvEPG02(config)# contexts context sgi_nat
+        Fri Mar  3  13:15:08.635 UTC+00:00
+              O4MOvEPG02(config-context-sgi_nat)# ipv6 static-route 2405:dc00:42:180::2/128 next-hop-address 2405:dc00:42:16b::3
+          O4MOvEPG02(config-context-sgi_nat)# ipv6 static-route 2405:dc00:42:180::2/128 next-hop-address 2405:dc00:42:16b::3
+          O4MOvEPG02(config-context-sgi_nat)# ipv6 static-route 2405:dc00:42:180::2/128 next-hop-address 2405:dc00:42:16b::3
+            Fri Mar  3  13:15:18.956 UTC+00:00
+              O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# 
+          O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# 
+          O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# 
+                  O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# commit
+          O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# commit
+          O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# commit
+            Fri Mar  3  13:15:22.897 UTC+00:00
+        Commit complete.
+              O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# end
+          O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# end
+          O4MOvEPG02(config-static-route-2405:dc00:42:180::2/128/next-hop-address/2405:dc00:42:16b::3)# end
+            Fri Mar  3  13:15:25.226 UTC+00:00
+        [local]O4MOvEPG02#
+  

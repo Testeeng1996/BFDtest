@@ -1,0 +1,381 @@
+[local]22RREPG01#
+[local]22RREPG01#
+[local]22RREPG01#epg node status 
+node-status:
+
+    board-information:
+        board: gc-0/4/1
+        internal-address: 127.3.3.1
+        cpu-utilization: Peak 3%, Average 1%
+        memory: Total 65695992, Used 23928488
+        start-time: Mon Jul  3 14:21:25 2023
+
+        function:
+            function-name: Global Session Controller
+            status: Ready
+
+        function:
+            function-name: PGW Session Controller
+            status: Ready
+            number-of-bearers: 240897
+            number-of-pdn-connections: 236578
+
+        function:
+            function-name: SGW Session Controller
+            status: Ready
+            number-of-bearers: 23076
+            number-of-pdn-connections: 23069
+
+    board-information:
+        board: gc-0/5/1
+        internal-address: 127.3.4.1
+        cpu-utilization: Peak 3%, Average 1%
+        memory: Total 65695992, Used 23194604
+        start-time: Mon Jul  3 14:21:26 2023
+
+        function:
+            function-name: PGW Session Controller
+            status: Ready
+            number-of-bearers: 242200
+            number-of-pdn-connections: 237794
+
+        function:
+            function-name: SGW Session Controller
+            status: Ready
+            number-of-bearers: 22009
+            number-of-pdn-connections: 21997
+
+    board-information:
+        board: gc-0/6/1
+        internal-address: 127.3.5.1
+        cpu-utilization: Peak 3%, Average 1%
+        memory: Total 65695992, Used 23063028
+        start-time: Mon Jul  3 14:21:26 2023
+
+        function:
+            function-name: PGW Session Controller
+            status: Ready
+            number-of-bearers: 243229
+            number-of-pdn-connections: 238846
+
+        function:
+            function-name: SGW Session Controller
+            status: Ready
+            number-of-bearers: 22118
+            number-of-pdn-connections: 22111
+
+    board-information:
+        board: gu-0/12/1
+        internal-address: 127.3.11.1
+        cpu-utilization: Peak 9%, Average 5%
+        memory: Total 65695992, Used 16990064
+        start-time: Mon Jul  3 14:21:40 2023
+
+        function:
+            function-name: L2TP Packet Processor
+            status: Ready
+            number-of-l2tp-sessions: 2019
+            uplink-packets: 291625751
+            downlink-packets: 319890911
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 54723
+            uplink-packets: 6468988238
+            downlink-packets: 13522389036
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5401
+            uplink-packets: 4398968868
+            downlink-packets: 11255769962
+
+    board-information:
+        board: gu-0/13/1
+        internal-address: 127.3.12.1
+        cpu-utilization: Peak 8%, Average 5%
+        memory: Total 65695992, Used 16939984
+        start-time: Mon Jul  3 14:21:49 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 56570
+            uplink-packets: 6214263436
+            downlink-packets: 12614205397
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5178
+            uplink-packets: 4011309897
+            downlink-packets: 10186515793
+
+    board-information:
+        board: gu-0/14/1
+        internal-address: 127.3.13.1
+        cpu-utilization: Peak 9%, Average 4%
+        memory: Total 65695992, Used 16934436
+        start-time: Mon Jul  3 14:21:56 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 56621
+            uplink-packets: 6369647755
+            downlink-packets: 12979331036
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5262
+            uplink-packets: 4212568135
+            downlink-packets: 10664212301
+
+    board-information:
+        board: gu-0/15/1
+        internal-address: 127.3.14.1
+        cpu-utilization: Peak 9%, Average 5%
+        memory: Total 65695992, Used 16935472
+        start-time: Mon Jul  3 14:21:48 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 54157
+            uplink-packets: 6384904194
+            downlink-packets: 13756732266
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5141
+            uplink-packets: 4349871670
+            downlink-packets: 11564612257
+
+    board-information:
+        board: gu-0/16/1
+        internal-address: 127.3.15.1
+        cpu-utilization: Peak 12%, Average 5%
+        memory: Total 65695992, Used 16929024
+        start-time: Mon Jul  3 14:21:54 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 53708
+            uplink-packets: 6762986866
+            downlink-packets: 13669515380
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 4777
+            uplink-packets: 4786097718
+            downlink-packets: 11613936535
+
+    board-information:
+        board: gu-0/17/1
+        internal-address: 127.3.16.1
+        cpu-utilization: Peak 9%, Average 5%
+        memory: Total 65695992, Used 16927876
+        start-time: Mon Jul  3 14:21:51 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 54587
+            uplink-packets: 6842895432
+            downlink-packets: 14426018467
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5077
+            uplink-packets: 4715066661
+            downlink-packets: 12092247886
+
+    board-information:
+        board: gu-0/18/1
+        internal-address: 127.3.17.1
+        cpu-utilization: Peak 10%, Average 5%
+        memory: Total 65695992, Used 16942560
+        start-time: Mon Jul  3 14:21:55 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 57347
+            uplink-packets: 6469616877
+            downlink-packets: 13285756216
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5054
+            uplink-packets: 4324984888
+            downlink-packets: 10989263178
+
+    board-information:
+        board: gu-0/19/1
+        internal-address: 127.3.18.1
+        cpu-utilization: Peak 9%, Average 5%
+        memory: Total 65695992, Used 16935548
+        start-time: Mon Jul  3 14:21:58 2023
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 55088
+            uplink-packets: 6344913534
+            downlink-packets: 13237089125
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 4995
+            uplink-packets: 4323301196
+            downlink-packets: 11098242202
+
+    board-information:
+        board: gu-0/2/1
+        internal-address: 127.3.1.1
+        cpu-utilization: Peak 9%, Average 5%
+        memory: Total 65695992, Used 16996244
+        start-time: Mon Jul  3 14:21:30 2023
+
+        function:
+            function-name: L2TP Packet Processor
+            status: Ready
+            number-of-l2tp-sessions: 2132
+            uplink-packets: 558810270
+            downlink-packets: 364395078
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 55873
+            uplink-packets: 6148370820
+            downlink-packets: 12852821354
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5199
+            uplink-packets: 4077540441
+            downlink-packets: 10636399462
+
+    board-information:
+        board: gu-0/3/1
+        internal-address: 127.3.2.1
+        cpu-utilization: Peak 10%, Average 5%
+        memory: Total 65695992, Used 16991516
+        start-time: Mon Jul  3 14:21:45 2023
+
+        function:
+            function-name: L2TP Packet Processor
+            status: Ready
+            number-of-l2tp-sessions: 2097
+            uplink-packets: 284409549
+            downlink-packets: 341530272
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 57703
+            uplink-packets: 6196507506
+            downlink-packets: 12830308131
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5305
+            uplink-packets: 4058134829
+            downlink-packets: 10520637979
+
+    board-information:
+        board: gu-0/7/1
+        internal-address: 127.3.6.1
+        cpu-utilization: Peak 8%, Average 5%
+        memory: Total 65695992, Used 16986896
+        start-time: Mon Jul  3 14:21:40 2023
+
+        function:
+            function-name: L2TP Packet Processor
+            status: Ready
+            number-of-l2tp-sessions: 2036
+            uplink-packets: 270150853
+            downlink-packets: 293953365
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 57067
+            uplink-packets: 6295463214
+            downlink-packets: 12721466337
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5610
+            uplink-packets: 4186377223
+            downlink-packets: 10492371521
+
+    board-information:
+        board: gu-0/8/1
+        internal-address: 127.3.7.1
+        cpu-utilization: Peak 7%, Average 4%
+        memory: Total 65695992, Used 16982120
+        start-time: Mon Jul  3 14:21:37 2023
+
+        function:
+            function-name: L2TP Packet Processor
+            status: Ready
+            number-of-l2tp-sessions: 2074
+            uplink-packets: 274056901
+            downlink-packets: 305288122
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 55814
+            uplink-packets: 6022261170
+            downlink-packets: 12275136447
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5048
+            uplink-packets: 3887908676
+            downlink-packets: 9998500672
+
+    board-information:
+        board: gu-0/9/1
+        internal-address: 127.3.8.1
+        cpu-utilization: Peak 10%, Average 4%
+        memory: Total 65695992, Used 16983076
+        start-time: Mon Jul  3 14:21:32 2023
+
+        function:
+            function-name: L2TP Packet Processor
+            status: Ready
+            number-of-l2tp-sessions: 2046
+            uplink-packets: 351159279
+            downlink-packets: 454329208
+
+        function:
+            function-name: PGW Packet Processor
+            status: Ready
+            number-of-bearers: 57075
+            uplink-packets: 5840330947
+            downlink-packets: 11728972956
+
+        function:
+            function-name: SGW Packet Processor
+            status: Ready
+            number-of-bearers: 5152
+            uplink-packets: 3662639956
+            downlink-packets: 9325681161
+[local]22RREPG01#

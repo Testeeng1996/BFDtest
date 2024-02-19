@@ -1,0 +1,51 @@
+root@C-PF4CG9AH:/mnt/c/Users/gpoole/Documents/GEN_TRA_WORK# ansible-playbook MOP3SWTDOWN.yml
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+
+PLAY [localhost] *******************************************************************************************************
+
+TASK [Read content of Check1.txt] **************************************************************************************
+ok: [localhost]
+
+TASK [Convert content to string] ***************************************************************************************
+ok: [localhost]
+
+TASK [Replace <Device IP> with deviceIP in the string] *****************************************************************
+ok: [localhost]
+
+TASK [Write the replaced content to Check12] ***************************************************************************
+changed: [localhost]
+
+TASK [Debug - Display deviceIP for Ping Command] ***********************************************************************
+ok: [localhost] => {
+    "msg": "Checking ping statistics for '172.29.81.151' in Check12"
+}
+
+TASK [Check ping statistics] *******************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [Debug - Display message from assertion in Check Ping Statistics] *************************************************
+skipping: [localhost]
+
+TASK [Debug - Display deviceIP for SNMP Command] ***********************************************************************
+ok: [localhost] => {
+    "msg": "Checking SNMP sysUpTimeInstance for '172.29.81.151' in Check12"
+}
+
+TASK [Debug - Display value being checked in SNMP sysUpTimeInstance] ***************************************************
+ok: [localhost] => {
+    "msg": "Checking for 'DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (4202026) 11:40:20.26' in Check12"
+}
+
+TASK [Check SNMP sysUpTimeInstance] ************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY RECAP *************************************************************************************************************
+localhost                  : ok=9    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0

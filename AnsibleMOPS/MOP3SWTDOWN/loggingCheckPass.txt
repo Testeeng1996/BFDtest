@@ -1,0 +1,12 @@
+Command: show logging 
+Note:      This will be taken care by advanced correlation and will be implemented in next phase.      
+NGCE:
+
+ROUTING-ISIS-5-ADJCHANGE
+BGP-5-ADJCHANGE
+NGTT+:
+
+%ROUTING-OSPF-5-ADJCHG
+BGP-5-ADJCHANGE
+
+#Can I confirm the alarm name is LINK DOWN?

@@ -1,0 +1,46 @@
+- name: Check for SWT_SWITCH_DOWN in JSON files
+  hosts: localhost
+  gather_facts: no
+  vars:
+    regex_pattern: '"probable-cause": "SWT_SWITCH_DOWN"'
+  tasks:
+    - name: Assuming Alarm Has Not Been Cleared
+      slurp:
+        src: "jsonENMPData.txt"
+      register: json_content_enmp
+
+    - name: Check for Probable Cause in jsonENMPData.txt
+      set_fact:
+        found_in_enmp: "{{ (json_content_enmp['content'] | b64decode | regex_search(regex_pattern)) is not none }}"
+
+    - name: Display result for jsonENMPData.txt
+      debug:
+        msg: "Alarm is persistent. Probable cause SWT_SWITCH_DOWN found in jsonENMPData.txt"
+      when: found_in_enmp
+
+    - name: Display alternate message for jsonENMPData.txt
+      debug:
+        msg: "SWT_SWITCH_DOWN cleared in jsonENMPData.txt"
+      when: not found_in_enmp
+
+
+
+
+    - name: Assuming Alarm Has Been Cleared
+      slurp:
+        src: "jsonNoSWTDOWN.txt"
+      register: json_content_enmp
+
+    - name: Check for Probable Cause in jsonENMPData.txt
+      set_fact:
+        found_in_enmp: "{{ (json_content_enmp['content'] | b64decode | regex_search(regex_pattern)) is not none }}"
+
+    - name: Display result for jsonENMPData.txt
+      debug:
+        msg: "Alarm is persistent. Probable cause SWT_SWITCH_DOWN found in jsonENMPData.txt"
+      when: found_in_enmp
+
+    - name: Display alternate message for jsonENMPData.txt
+      debug:
+        msg: "SWT_SWITCH_DOWN cleared in jsonENMPData.txt"
+      when: not found_in_enmp
