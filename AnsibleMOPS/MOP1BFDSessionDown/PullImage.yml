@@ -3,6 +3,12 @@
   hosts: localhost
   become: yes
   tasks:
+
+  - name: Ensure Docker SDK for Python is installed
+    pip:
+      name: docker
+      executable: /usr/bin/pip3
+
   - name: Login to DockerHub
     docker_login:
       username: piggly
