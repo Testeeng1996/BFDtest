@@ -17,11 +17,12 @@
     debug:
       msg: "pip is not found"
     when: pip_location.rc != 0
-
   - name: Ensure Docker SDK for Python is installed
     pip:
       name: docker
-      executable: /var/lib/awx/env/ansible/bin/pip3
+      executable: "{{ pip_location.stdout }}"
+    when: pip_location.stdout != ''
+
 
   - name: Login to DockerHub
     docker_login:
