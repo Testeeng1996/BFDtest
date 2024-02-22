@@ -27,7 +27,6 @@
     docker_image:
       name: flaskapi
       source: pull
-      docker_host: "tcp://localhost:2375"
 
   - name: Run a Docker Container
     docker_container:
