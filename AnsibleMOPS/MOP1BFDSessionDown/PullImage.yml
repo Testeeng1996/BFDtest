@@ -3,13 +3,20 @@
   hosts: localhost
   become: yes
   tasks:
-  - name: Ensure Docker SDK for Python is installed
-    command: which pip
-    register: pippy
+    - name: Find pip location
+      command: which pip3
+      register: pip_location
+      ignore_errors: yes
 
-  - name: Hmm
-    debug:
-      pippy
+    - name: Print pip location
+      debug:
+        msg: "The location of pip is {{ pip_location.stdout }}"
+      when: pip_location.rc == 0
+
+    - name: Print error if pip is not found
+      debug:
+        msg: "pip is not found"
+      when: pip_location.rc != 0
 
   - name: Ensure Docker SDK for Python is installed
     pip:
