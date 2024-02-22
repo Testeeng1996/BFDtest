@@ -23,16 +23,11 @@
       executable: "{{ pip_location.stdout }}"
     when: pip_location.stdout != ''
 
-
-  - name: Login to DockerHub
-    docker_login:
-      username: piggly
-      password: Duckery4m**p
-
   - name: Pull a Docker Image
     docker_image:
       name: flaskapi
       source: pull
+      docker_host: "tcp://localhost:2375"
 
   - name: Run a Docker Container
     docker_container:
