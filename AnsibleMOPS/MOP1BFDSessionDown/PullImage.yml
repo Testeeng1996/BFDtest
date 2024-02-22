@@ -4,6 +4,14 @@
   become: yes
   tasks:
   - name: Ensure Docker SDK for Python is installed
+    command: which pip
+    register: pippy
+
+  - name: Hmm
+    debug:
+      pippy
+
+  - name: Ensure Docker SDK for Python is installed
     pip:
       name: docker
       executable: python3 -m pip
