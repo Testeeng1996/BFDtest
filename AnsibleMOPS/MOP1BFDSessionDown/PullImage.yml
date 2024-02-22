@@ -21,7 +21,7 @@
   - name: Ensure Docker SDK for Python is installed
     pip:
       name: docker
-      executable: python3 -m pip
+      executable: /var/lib/awx/env/ansible/bin/pip3
 
   - name: Login to DockerHub
     docker_login:
