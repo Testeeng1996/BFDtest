@@ -1,0 +1,22 @@
+---
+- name: Deploy Image with Ansible
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Login to DockerHub
+    docker_login:
+      username: piggly
+      password: Duckery4m**p
+
+  - name: Pull a Docker Image
+    docker_image:
+      name: flaskapi
+      source: pull
+
+  - name: Run a Docker Container
+    docker_container:
+      name: adoring_rubin
+      image: flaskapi
+      state: started
+      ports:
+        - "8099:8099"
