@@ -1,68 +1,13 @@
----
-- name: Deploy Image with Ansible
-  hosts: localhost
-  become: yes
+- name: Pull and run a Docker image
+  hosts: all
   tasks:
+    - name: Pull a Docker image
+      community.docker.docker_image:
+        name: "flaskapi"
+        source: pull
 
-  - name: Pull a Docker image
-    community.docker.docker_image:
-      name: "flaskapi"
-      source: pull
-
-  - name: Run a Docker container
-    community.docker.docker_container:
-      name: "adoring_rubin"
-      image: "flaskapi"
-      state: started
-
-  - name: Install community.docker collection
-    ansible.builtin.collection_install:
-      name: community.docker
-
-  - name: Find pip location
-    command: which pip3
-    register: pip_location
-    ignore_errors: yes
-    
-  - name: Find Docker location
-    command: which docker
-    register: docker_location
-    ignore_errors: yes
-
-  - name: Print Docker location
-    debug:
-      msg: "The location of Docker is {{ docker_location.stdout }}"
-    when: docker_location.rc == 0
-
-  - name: Print error if Docker is not found
-    debug:
-      msg: "Docker is not found"
-    when: docker_location.rc != 0
-
-  - name: Print pip location
-    debug:
-      msg: "The location of pip is {{ pip_location.stdout }}"
-    when: pip_location.rc == 0
-
-  - name: Print error if pip is not found
-    debug:
-      msg: "pip is not found"
-    when: pip_location.rc != 0
-  - name: Ensure Docker SDK for Python is installed
-    pip:
-      name: docker
-      executable: "{{ pip_location.stdout }}"
-    when: pip_location.stdout != ''
-
-  - name: Pull a Docker Image
-    docker_image:
-      name: flaskapi
-      source: pull
-
-  - name: Run a Docker Container
-    docker_container:
-      name: adoring_rubin
-      image: flaskapi
-      state: started
-      ports:
-        - "8099:8099"
+    - name: Run a Docker container
+      community.docker.docker_container:
+        name: "adoring_rubin"
+        image: "flaskapi"
+        state: started
