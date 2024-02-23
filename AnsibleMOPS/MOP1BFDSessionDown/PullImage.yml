@@ -3,7 +3,10 @@
   hosts: localhost
   become: yes
   tasks:
-  
+  - name: Install community.docker collection
+    ansible.builtin.collection_install:
+      name: community.docker
+
   - name: Find pip location
     command: which pip3
     register: pip_location
