@@ -3,10 +3,26 @@
   hosts: localhost
   become: yes
   tasks:
+  
   - name: Find pip location
     command: which pip3
     register: pip_location
     ignore_errors: yes
+    
+  - name: Find Docker location
+    command: which docker
+    register: docker_location
+    ignore_errors: yes
+
+  - name: Print Docker location
+    debug:
+      msg: "The location of Docker is {{ docker_location.stdout }}"
+    when: docker_location.rc == 0
+
+  - name: Print error if Docker is not found
+    debug:
+      msg: "Docker is not found"
+    when: docker_location.rc != 0
 
   - name: Print pip location
     debug:
