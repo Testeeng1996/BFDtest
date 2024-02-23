@@ -4,16 +4,16 @@
   become: yes
   tasks:
 
-    - name: Pull a Docker image
-      community.docker.docker_image:
-        name: "flaskapi"
-        source: pull
+  - name: Pull a Docker image
+    community.docker.docker_image:
+      name: "flaskapi"
+      source: pull
 
-    - name: Run a Docker container
-      community.docker.docker_container:
-        name: "adoring_rubin"
-        image: "flaskapi"
-        state: started
+   - name: Run a Docker container
+    community.docker.docker_container:
+      name: "adoring_rubin"
+      image: "flaskapi"
+      state: started
 
   - name: Install community.docker collection
     ansible.builtin.collection_install:
