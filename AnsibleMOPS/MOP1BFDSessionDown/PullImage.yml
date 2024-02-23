@@ -9,7 +9,7 @@
       name: "flaskapi"
       source: pull
 
-   - name: Run a Docker container
+  - name: Run a Docker container
     community.docker.docker_container:
       name: "adoring_rubin"
       image: "flaskapi"
