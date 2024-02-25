@@ -1,4 +1,49 @@
 ---
+- name: Build and push Docker images
+  hosts: localhost
+  become: yes
+  vars:
+    docker_host: "tcp://localhost:2375/"
+    docker_driver: "overlay2"
+    docker_tls_certdir: "/certs"
+    image_name: "flaskapi"
+    registry_url: "localhost:8099"
+    registry_username: "piggly" # Add your Docker registry username here
+    registry_password: "Duckery4m**p" # Add your Docker registry password here
+
+  tasks:
+    - name: Ensure Docker is installed
+      include_role:
+        name: geerlingguy.docker
+      
+    - name: Log in to Docker registry
+      docker_login:
+        username: "{{ registry_username }}"
+        password: "{{ registry_password }}"
+        registry: "{{ registry_url }}"
+
+    - name: Build Docker image
+      docker_image:
+        build:
+          path: "." # Assuming the playbook is run in the same directory as the Dockerfile
+          args:
+            DOCKER_HOST: "{{ docker_host }}"
+            DOCKER_DRIVER: "{{ docker_driver }}"
+            DOCKER_TLS_CERTDIR: "{{ docker_tls_certdir }}"
+        name: "{{ image_name }}"
+        tag: "{{ lookup('env','CI_COMMIT_SHA')[:10] }}"
+        source: build
+      
+    - name: Push Docker image to registry
+      docker_image:
+        name: "{{ image_name }}"
+        tag: "{{ lookup('env','CI_COMMIT_SHA')[:10] }}"
+        push: yes
+        source: push
+        registry: "{{ registry_url }}"
+
+
+---
 - name: Deploy Image with Ansible
   hosts: localhost
   become: yes
