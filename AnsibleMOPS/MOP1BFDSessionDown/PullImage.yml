@@ -1,13 +1,15 @@
 - name: Pull and run a Docker image
-  hosts: all
+  hosts: localhost
+  collections:
+    - community.docker
   tasks:
     - name: Pull a Docker image
-      community.docker.docker_image:
-        name: "flaskapi"
+      docker_image:
+        name: "your_image_name:tag"
         source: pull
 
     - name: Run a Docker container
-      community.docker.docker_container:
-        name: "adoring_rubin"
-        image: "flaskapi"
+      docker_container:
+        name: "my_container"
+        image: "your_image_name:tag"
         state: started
