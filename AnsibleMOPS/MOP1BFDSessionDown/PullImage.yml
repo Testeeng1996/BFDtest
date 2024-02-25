@@ -15,7 +15,10 @@
     - name: Ensure Docker is installed
       include_role:
         name: geerlingguy.docker
-      
+
+    - name: Install docker
+      command: pip install docker
+    
     - name: Log in to Docker registry
       docker_login:
         username: "{{ registry_username }}"
@@ -42,29 +45,20 @@
         source: push
         registry: "{{ registry_url }}"
 
-
----
-- name: Deploy Image with Ansible
-  hosts: localhost
-  become: yes
-  tasks:
-  - name: Install docker
-    command: pip install docker
-
-  - name: Login to DockerHub
-    docker_login:
-      username: piggly
-      password: Duckery4m**p
+    - name: Login to DockerHub
+      docker_login:
+        username: piggly
+        password: Duckery4m**p
  
-  - name: Pull a Docker Image
-    docker_image:
-      name: flaskapi
-      source: pull
+    - name: Pull a Docker Image
+      docker_image:
+        name: flaskapi
+        source: pull
  
-  - name: Run a Docker Container
-    docker_container:
-      name: adoring_rubin
-      image: flaskapi
-      state: started
-      ports:
-        - "8099:8099"
+    - name: Run a Docker Container
+      docker_container:
+        name: adoring_rubin
+        image: flaskapi
+        state: started
+        ports:
+          - "8099:8099"
