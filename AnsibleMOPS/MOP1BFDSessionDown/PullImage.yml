@@ -3,6 +3,9 @@
   hosts: localhost
   become: yes
   tasks:
+  - name: Install docker
+    command: pip install docker
+
   - name: Login to DockerHub
     docker_login:
       username: piggly
