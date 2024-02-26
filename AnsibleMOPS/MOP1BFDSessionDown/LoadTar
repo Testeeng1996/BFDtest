@@ -1,0 +1,14 @@
+---
+- name: Load and run a container image from a tar file
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Load the image into the container runtime
+      ansible.builtin.command:
+        cmd: "docker load -i \\wsl$\Ubuntu\home\gpoole\ansible-flask-dockerS\ansible-flask-docker\flask-ansible-docker.tar"
+      register: load_result
+
+    - name: Run the container
+      ansible.builtin.command:
+        cmd: "docker run -d --name my_container {{ load_result.stdout_lines[0].split(': ')[1] }}"
+
