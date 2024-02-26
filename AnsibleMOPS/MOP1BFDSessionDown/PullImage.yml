@@ -1,7 +1,6 @@
 ---
-- name: Build and push Docker images
+- name: Log into Docker Registry with Proxy Settings
   hosts: localhost
-  become: yes
   vars:
     docker_host: "tcp://localhost:2375/"
     docker_driver: "overlay2"
@@ -12,6 +11,17 @@
     registry_password: "Duckery4m**p" # Add your Docker registry password here
 
   tasks:
+    - name: Docker Login
+      community.general.docker_login:
+        username: piggly
+        password: Duckery4m**p
+        email: g.a.poole@live.com.au
+        registry_url: "https://registry-1.docker.io/"
+      environment:
+        HTTP_PROXY: "http://yourproxy.example.com:port/"
+        HTTPS_PROXY: "http://yourproxy.example.com:port/"
+        NO_PROXY: "registry-1.docker.com,*.docker.com,10.0.0.0/8"
+
     - name: Install docker
       command: pip install docker
       
