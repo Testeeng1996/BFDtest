@@ -15,9 +15,9 @@
     - name: Install docker
       command: pip install docker
       
-    - name: Ensure Docker is installed
-      include_role:
-        name: geerlingguy.docker    
+#    - name: Ensure Docker is installed
+#      include_role:
+#        name: geerlingguy.docker    
         
     - name: Log in to Docker registry
       docker_login:
