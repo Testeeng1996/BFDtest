@@ -3,6 +3,9 @@
   hosts: localhost
   gather_facts: no
   tasks:
+    - name: Install Docker
+      command: pip3 install docker
+      
     - name: Load the image into the container runtime
       ansible.builtin.command:
         cmd: "docker load -i C:\\Users\\gpoole\\Documents\\ansible-flask-dockerS\\ansible-flask-docker\\flask-ansible-docker.tar"
