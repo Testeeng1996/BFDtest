@@ -12,13 +12,13 @@
     registry_password: "Duckery4m**p" # Add your Docker registry password here
 
   tasks:
-    - name: Ensure Docker is installed
-      include_role:
-        name: geerlingguy.docker
-
     - name: Install docker
       command: pip install docker
-    
+      
+    - name: Ensure Docker is installed
+      include_role:
+        name: geerlingguy.docker    
+        
     - name: Log in to Docker registry
       docker_login:
         username: "{{ registry_username }}"
