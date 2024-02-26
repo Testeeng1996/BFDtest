@@ -5,6 +5,10 @@
   tasks:
     - name: Install Docker
       command: pip3 install docker
+
+    - name: Where is Docker
+      command: which docker
+      register: dockerpath
       
     - name: Load the image into the container runtime
       ansible.builtin.command:
