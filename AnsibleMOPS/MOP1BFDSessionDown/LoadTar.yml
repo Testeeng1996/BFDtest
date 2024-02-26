@@ -5,7 +5,7 @@
   tasks:
     - name: Load the image into the container runtime
       ansible.builtin.command:
-        cmd: "docker load -i \\wsl$\Ubuntu\home\gpoole\ansible-flask-dockerS\ansible-flask-docker\flask-ansible-docker.tar"
+        cmd: "docker load -i C:\Users\gpoole\Documents\ansible-flask-dockerS\ansible-flask-docker\flask-ansible-docker.tar"
       register: load_result
 
     - name: Run the container
